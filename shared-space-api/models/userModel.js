@@ -31,14 +31,22 @@ const userSchema = new mongoose.Schema({
     type: Number, 
     default: 0 
   },
+  // For checking streaks
+  lastActivityDate: {
+    type: Date
+  },
   badges: { 
     type: [String], 
     default: [] 
   },
-  friends: { 
-    type: [String], 
-    default: [] 
-  }
+  friends: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "User" 
+  }],
+  friendRequests: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+  }]
 });
 
 const User = mongoose.model("User", userSchema);
