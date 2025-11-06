@@ -2,7 +2,7 @@ import Vote from '../models/voteModel.js';
 import Artwork from '../models/artworkModel.js';
 import Challenge from '../models/challengeModel.js';
 
-// 
+// get artwork entries of a challenge
 const getChallengeEntries = async (req, res) => {
   try {
     const { challengeId } = req.params;
@@ -22,6 +22,7 @@ const getChallengeEntries = async (req, res) => {
   }
 };
 
+// submit artwork vote
 const submitVote = async (req, res) => {
   try {
     const { artworkId } = req.params;
@@ -69,6 +70,9 @@ const submitVote = async (req, res) => {
     });
 
     await newVote.save();
+
+    // Increment the vote counter of the artwork
+    await Artwork.findByIdAndUpdate(artworkId, { $inc: { votes: 1 } });
 
     res.status(201).json({ message: 'Vote submitted successfully!', vote: newVote });
   } catch (error) {

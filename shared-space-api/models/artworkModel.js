@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
 
 const artworkSchema = new mongoose.Schema({
-  artworkID: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    default: () => new mongoose.Types.ObjectId(), 
-    unique: true 
-  },
+  // redundant ID
+  // artworkID: { 
+  //   type: mongoose.Schema.Types.ObjectId, 
+  //   default: () => new mongoose.Types.ObjectId(), 
+  //   unique: true 
+  // },
   // reference to user
   ownerID: { 
     type: mongoose.Schema.Types.ObjectId, 
