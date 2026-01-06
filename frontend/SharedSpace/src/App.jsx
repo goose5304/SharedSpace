@@ -1,6 +1,7 @@
 import './App.css'
 import "@fontsource/poppins"
 import { BorderlessButton } from './components/BorderlessButton'
+import { BorderedButton } from './components/BorderedButton'
 import { Routes, Route } from 'react-router-dom'
 import { ArtWallPage } from './pages/ArtWallPage.jsx'
 import { FriendsSpacePage } from './pages/FriendsSpacePage.jsx'
@@ -15,6 +16,11 @@ function App() {
           <BorderlessButton to='/' message={'header button'} type='header'/>
           <BorderlessButton to='/' message={'light body button'} type='lightbody'/>
           <BorderlessButton to='/' message={'dark body button'} type='darkbody'/>
+          <br></br>
+          <BorderedButton to='/' message={'Large Button'} size='large'/>
+          <br></br>
+          <BorderedButton to='/' message={'Purple Button'} size='purple'/>
+          <BorderedButton to='/' message={'Pink Button'} size='pink'/>
         </div>
       } />
       
