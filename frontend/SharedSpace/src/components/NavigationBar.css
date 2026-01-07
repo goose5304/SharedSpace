@@ -1,0 +1,55 @@
+.navbar {
+    align-items: center;
+    background-color: #FDD9C5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    padding: 0.75rem;
+    transition: box-shadow 0.25s ease;
+}
+
+.navbar:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.33);
+}
+
+.logo {
+    align-items: center;
+    display: flex;  
+}
+
+.center-icons {
+    align-items: center;
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+}
+
+.right-icons {
+    align-items: center;
+    display: flex;
+    gap: 2rem;
+    justify-content: flex-end;
+    padding-right: 1rem;
+}
+
+/* --------------------------------- */
+
+.navbar-logo {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+    transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.navbar-icon {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+    transition: filter 0.25s ease, transform 0.25s ease;
+}
+
+.navbar-logo:hover {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.33));
+    transform: scale(1.1);  
+}
+
+.navbar-icon:hover {
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.33));
+    transform: scale(1.2);
+}
