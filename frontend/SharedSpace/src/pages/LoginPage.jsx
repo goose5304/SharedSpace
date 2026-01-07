@@ -1,26 +1,49 @@
 import { Link } from 'react-router-dom'
+import { BorderedButton } from '../components/BorderedButton'
+import SharedSpaceLogo from '../assets/SharedSpaceLogo.svg'
+import './LoginPage.css'
 
 export function LoginPage() {
   return (
     <>
-        <div>
-            <h1>Welcome Back</h1>
+      <div className = "card">
+        <div className = "card-body">
+          <div className = "login-form">
+              <div className = "section-header">
+                Welcome Back!
+              </div>
 
-            <form>
+              <form>
                 <input type = "email" placeholder = "Enter email"/>
                 <input type = "password" placeholder = "Enter password"/>
 
-                <button>Log In</button>
-            </form>
-        </div>
+                <div className = "card-button">
+                  <BorderedButton message = "Log In" size = "purple"/>
+                </div>
+              </form>
+          </div>
 
-        <div>
-            <h3>New to Shared Space?</h3>
+          <div className = "sign-up-prompt">
+            <div className = "section-header">
+              New to Shared Space?
+            </div>
 
-            <Link to = "/sign-up">
-              <button>Sign Up</button>
-            </Link>
+            <div className = "section-header2">
+              Join a community of fellow artists today!
+            </div>
+
+            <div className = "login-page-logo">
+              <img src = {SharedSpaceLogo} alt = "Shared Space" className = "logo"/>
+            </div>
+
+            <div className = "card-button">
+              <Link to = "/sign-up">
+                <BorderedButton to = "/sign-up" message = "Sign Up" size = "purple"/>
+              </Link>
+            </div>
+          </div>
         </div>
+      </div>
     </>
   );
 }
