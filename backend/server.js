@@ -35,7 +35,7 @@ app.use('/api/artworks', artworkRouter);
 app.use('/api/reports', reportRouter);
 app.use('/api/challenges', challengeRouter);
 app.use('/api/votes', voteRouter);
-app.use('/api/dashboard', dashboardRouter);
+//app.use('/api/dashboard', dashboardRouter);
 app.use('/api/leaderboard', leaderboardRouter);
 
 const PORT = process.env.PORT || 3000;
