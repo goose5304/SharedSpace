@@ -7,7 +7,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 //verify token (bearer galing sa backend)
 const verifyToken = (req, res, next) => {
     const header = req.headers.authorization;
-    if (!header || !header.startsWith("Bearer ")) {
+    if (!header || !header.startsWith("Bearer")) {
         return res.status(401).json({ message: "Unauthorized: No token provided." });
     }
 
@@ -23,7 +23,7 @@ const verifyToken = (req, res, next) => {
 
 //authentication check if admin ba naka-login
 const isAdmin = async (req, res, next) => {
-    if (req.user && req.user.userType === 'admin') {
+    if (req.user && req.user.userType === "admin") {
         next();
     } else {
         res.status(403).json({ message: "Access denied. Admins only." });

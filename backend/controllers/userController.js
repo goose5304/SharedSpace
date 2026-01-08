@@ -2,6 +2,9 @@ import bcrypt from "bcrypt";
 import mongoose from 'mongoose';
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
+
+dotenv.config();
 const SECRET_KEY = process.env.SECRET_KEY;
 
 // find user by email
