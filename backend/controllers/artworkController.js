@@ -1,4 +1,5 @@
 import Artwork from "../models/artworkModel.js";
+import { updateStreak } from "./userController.js";
 
 // find all artworks
 const findAllArtworks = async (req, res, next) => {
@@ -57,6 +58,9 @@ const createArtwork = async (req, res, next) => {
         });
 
         const savedArtwork = await newArtwork.save();
+        
+        await updateStreak(req.user.userId); //trigger a streak update to user after new artwork created
+
         res.status(201).json(savedArtwork);
     } catch (err) {
         console.error('Error creating artwork:', err);

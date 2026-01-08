@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import mongoose from 'mongoose';
 import User from '../models/userModel.js';
+import jwt from 'jsonwebtoken';
+const SECRET_KEY = process.env.SECRET_KEY;
 
 // find user by email
 const findByUserEmail = async (req, res, next) => {
@@ -84,10 +86,19 @@ const findCurrentUser = async (req, res) => {
             return res.status(401).json({ message: 'Unauthorized: Invalid token.' });
         }
         const userId = req.user.userId;
-        const user = await User.findById(userId).select('username email userType');
+        const user = await User.findById(userId).select('username email userType streakCount lastActivityDate');
         if (!user) {
             return res.status(404).json({ message: 'User not found.' });
         }
+        const userData = user.toObject(); // Convert Mongoose document to a plain object to modify it
+        const now = new Date();
+        const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+
+        // If activity is older than 7 days, reset streakCount to 0 
+        if (userData.lastActivityDate && (now - userData.lastActivityDate > sevenDaysInMs)) {
+            userData.streakCount = 0;
+        }
+
         res.status(200).json(user);
     } catch (error) {
         console.error('Error fetching current user:', error);
@@ -312,6 +323,38 @@ const getPendingRequests = async (req, res) => {
     } catch (error) {
         console.error('Error fetching pending requests:', error);
         res.status(500).json({ message: "Unable to fetch pending requests", error: error.message });
+    }
+};
+
+export const updateStreak = async (userId) => {
+    try {
+        const user = await User.findById(userId);
+        if (!user) return;
+
+        const now = new Date();
+        const lastActivity = user.lastActivityDate;
+
+        if (lastActivity) {
+            // Calculate difference in days
+            const diffInTime = now.getTime() - lastActivity.getTime();
+            const diffInDays = diffInTime / (1000 * 3600 * 24);
+
+            if (diffInDays <= 7) {
+                // Uploaded within the week grace period!
+                user.streakCount += 1;
+            } else {
+                // Streak over, reset to 1
+                user.streakCount = 1;
+            }
+        } else {
+            // First time uploading
+            user.streakCount = 1;
+        }
+
+        user.lastActivityDate = now;
+        await user.save();
+    } catch (err) {
+        console.error("Streak Update Error:", err);
     }
 };
 

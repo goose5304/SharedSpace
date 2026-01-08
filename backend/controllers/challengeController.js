@@ -1,6 +1,7 @@
 import Challenge from '../models/challengeModel.js';
 import Artwork from '../models/artworkModel.js'; 
 import mongoose from 'mongoose';
+import { updateStreak } from './userController.js'
 
 // create a challenge (FOR ADMINS ONLY) 
 const createChallenge = async (req, res) => {
@@ -75,6 +76,9 @@ const submitToChallenge = async (req, res) => {
     });
 
     const savedArtwork = await newArtwork.save();
+    
+    await updateStreak(ownerID); //trigger streak update
+
     res.status(201).json(savedArtwork);
   } catch (error) {
     console.error('Error submitting to challenge:', error);
