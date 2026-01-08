@@ -1,9 +1,16 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { BorderedButton } from '../../components/BorderedButton'
 import SharedSpaceLogo from '../../assets/SharedSpaceLogo.svg'
 import './LoginPage.css'
 
 export function LoginPage() {
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    navigate('/'); // go home
+  };
+
   return (
     <>
       <div className="card">
@@ -13,12 +20,12 @@ export function LoginPage() {
               Welcome Back!
             </div>
 
-            <form>
-              <input type="email" placeholder="Enter email" />
-              <input type="password" placeholder="Enter password" />
+            <form onSubmit={handleLogin}>
+              <input type="email" placeholder="Enter email" required />
+              <input type="password" placeholder="Enter password" required />
 
               <div className="card-button">
-                <BorderedButton message="Log In" size="purple" />
+                <BorderedButton to="/" message="Log In" size="purple" />
               </div>
             </form>
           </div>
