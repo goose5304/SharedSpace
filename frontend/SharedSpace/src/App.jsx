@@ -5,6 +5,7 @@ import { NavigationBar } from './components/NavigationBar'
 import { BorderlessButton } from './components/BorderlessButton'
 import { BorderedButton } from './components/BorderedButton'
 import { Routes, Route } from 'react-router-dom'
+import { HomePage } from './pages/HomePage.jsx'
 import { ArtWallPage } from './pages/ArtWallPage.jsx'
 import { FriendsSpacePage } from './pages/FriendsSpacePage.jsx'
 import { LeaderboardPage } from './pages/LeaderboardPage.jsx'
@@ -33,6 +34,7 @@ function App() {
           </div>
         } />
         
+        <Route path ="home-page" element={<HomePage />}/>
         <Route path="art-wall" element={<ArtWallPage />}/>
         <Route path="friends-space" element={<FriendsSpacePage />}/>
         <Route path="leaderboard" element={<LeaderboardPage />}/>

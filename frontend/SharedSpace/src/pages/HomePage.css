@@ -1,0 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; 
+}
+
+.share{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translate(0px,2rem);
+}
+
+.Logo2{
+    transform: translate(-1rem);
+}
+
+.share .ShareButton{
+    width: 2rem;
+    height: 2rem;
+}
