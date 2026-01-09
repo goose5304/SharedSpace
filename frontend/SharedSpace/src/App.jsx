@@ -11,6 +11,7 @@ import { LeaderboardPage } from './pages/user/LeaderboardPage.jsx'
 import { LoginPage } from './pages/user/LoginPage.jsx'
 import { SignUpPage } from './pages/user/SignUpPage.jsx'
 import { HomePage } from './pages/user/HomePage.jsx'
+import { ProfilePage } from './pages/user/ProfilePage.jsx'
 
 function App() {
   const location = useLocation()
@@ -40,6 +41,7 @@ function App() {
         <Route path="leaderboard" element={<LeaderboardPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="sign-up" element={<SignUpPage />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Routes>
     </>
   )
