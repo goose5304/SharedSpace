@@ -1,6 +1,7 @@
 import './App.css'
 import "@fontsource/poppins"
 import { useLocation } from 'react-router-dom'
+import { useState } from 'react'
 import { NavigationBar } from './components/NavigationBar'
 import { BorderlessButton } from './components/BorderlessButton'
 import { BorderedButton } from './components/BorderedButton'
@@ -12,13 +13,17 @@ import { LoginPage } from './pages/user/LoginPage.jsx'
 import { SignUpPage } from './pages/user/SignUpPage.jsx'
 import { HomePage } from './pages/user/HomePage.jsx'
 import { ProfilePage } from './pages/user/ProfilePage.jsx'
+import { SignOutPopup } from './components/SignOutPopup'
 
 function App() {
   const location = useLocation()
+  const [showSignOutPopup, setShowSignOutPopup] = useState(false)
 
   return (
     <>
-      {location.pathname !== "/login" && location.pathname !== "/sign-up" && <NavigationBar />}
+      {location.pathname !== "/login" && location.pathname !== "/sign-up" && (
+        <NavigationBar onSignOut={() => setShowSignOutPopup(true)} />
+      )}
 
       <Routes>
         {/* <Route index element={ //TEST ONLY 
@@ -43,6 +48,8 @@ function App() {
         <Route path="sign-up" element={<SignUpPage />} />
         <Route path="profile" element={<ProfilePage />} />
       </Routes>
+
+      {showSignOutPopup && <SignOutPopup onClose={() => setShowSignOutPopup(false)} />}
     </>
   )
 }

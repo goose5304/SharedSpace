@@ -7,8 +7,9 @@ import FriendsSpaceIcon from '../assets/FriendsSpaceIcon.svg'
 import LeaderboardIcon from '../assets/LeaderboardIcon.svg'
 import LogoutIcon from '../assets/LogoutIcon.svg'
 import NotificationIcon from '../assets/NotificationIcon.svg'
+import ProfileIcon from '../assets/ProfileIcon.svg'
 
-export function NavigationBar() {
+export function NavigationBar({ onSignOut }) {
   return (
     <nav className = 'navbar'>
         <Link to = "/">
@@ -108,7 +109,7 @@ export function NavigationBar() {
                 </defs>
             </svg>
 
-            <Link to = "/login">
+            <button onClick = {onSignOut} className = "navbar-sign-out-icon">
                 <svg className="navbar-icon" width="35" height="35" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="35.613" y="60.1334" width="240" height="27.78" fill="#341539"/>
                     <rect x="315.975" y="239.02" width="94.5441" height="27.78" transform="rotate(-45 315.975 239.02)" fill="#341539"/>
@@ -119,6 +120,15 @@ export function NavigationBar() {
                     <path d="M169.503 345.838H167.896L141.723 319.664V60.1332H169.503V345.838Z" fill="#341539"/>
                     <rect x="261.723" y="60.1334" width="27.78" height="379.733" fill="#341539"/>
                     <circle cx="195.607" cy="216.934" r="13.9486" fill="#341539"/>
+                </svg>
+            </button>
+
+            <Link to = "/profile">
+                <svg className="navbar-icon navbar-profile-icon" width="38" height="38" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M130.205 373.388C130.205 385.849 142.877 397.799 165.434 406.61C187.99 415.421 218.582 420.371 250.481 420.371C282.38 420.371 312.973 415.421 335.529 406.61C358.085 397.799 370.757 385.849 370.757 373.388H250.481H130.205Z" fill="#341539"/>
+                    <path d="M370.276 378.838C370.276 346.939 357.604 316.347 335.048 293.791C312.491 271.235 281.899 258.563 250 258.563C218.101 258.563 187.508 271.235 164.952 293.791C142.396 316.347 129.724 346.939 129.724 378.838H250H370.276Z" fill="#341539"/>
+                    <path d="M250.481 234.507C283.695 234.507 310.619 207.583 310.619 174.369C310.619 141.156 283.695 114.232 250.481 114.232C217.268 114.232 190.343 141.156 190.343 174.369C190.343 207.583 217.268 234.507 250.481 234.507Z" fill="#341539"/>
+                    <circle cx="250" cy="246.535" r="180.796" stroke="#341539" stroke-width="27.78"/>
                 </svg>
             </Link>
         </div>

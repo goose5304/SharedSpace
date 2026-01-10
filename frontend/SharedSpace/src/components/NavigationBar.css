@@ -70,6 +70,17 @@
     transform: scale(1.2);
 }
 
+.navbar-sign-out-icon {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.navbar-profile-icon {
+    margin-left: -0.425rem;
+    margin-right: 1rem;
+}
+
 /* -------------------------------------------------- */
 
 @media (max-width: 720px) {
