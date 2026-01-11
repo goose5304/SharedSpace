@@ -1,0 +1,154 @@
+.challenges-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+}
+
+/* Challenge Area */
+.challenge-main {
+    background: linear-gradient(to bottom, #EDA8A8, #FFE2E2);
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.main-title {
+    color: #341539;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.challenge-tag-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.challenge-tag {
+    background-color: #EDA8A8;
+    color: white;
+    padding: 1rem 3rem;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.challenge-content {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 4rem;
+    margin-top: 2rem;
+}
+
+.description-box {
+    background-color: rgba(94, 91, 124, 0.8); 
+    color: white;
+    padding: 2.5rem;
+    border-radius: 20px;
+    flex: 1;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.circles-container {
+    display: flex;
+    gap: 2rem;
+}
+
+.info-circle {
+    width: 140px;
+    height: 140px;
+    background-color: rgba(94, 91, 124, 0.8);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFE2E2;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    padding: 1rem;
+    transition: transform 0.3s ease;
+}
+
+.info-circle:hover {
+    transform: translateY(-5px);
+}
+
+/* Friend Challenge Area */
+.friends-challenge-area {
+    background-color: #5C5A7B;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.friends-challenge-text {
+    color: #FFE2E2;
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+    max-width: 800px;
+}
+
+
+@media (max-width: 1024px) {
+    .challenge-content {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .description-box {
+        width: 100%;
+    }
+
+    .circles-container {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .challenge-tag {
+        font-size: 1.5rem;
+        padding: 0.8rem 2rem;
+    }
+
+    .circles-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .friends-challenge-text {
+        font-size: 2rem;
+    }
+}
