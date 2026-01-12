@@ -1,6 +1,6 @@
+import './SharePopup.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './SharePopup.css';
 import { BorderedButton } from './BorderedButton';
 
 export function SharePopup({ trigger, setTrigger }) {
@@ -11,41 +11,29 @@ export function SharePopup({ trigger, setTrigger }) {
     const [description, setDescription] = useState('');
     const [isDragging, setIsDragging] = useState(false);
 
-    if (!trigger) return null;
+    if (!trigger) {
+        return null;
+    }
 
     const handleClose = () => {
         setTrigger(false);
         setFiles([]);
         setFileName('File Name 1');
-        setIsPublic(true);
         setDescription('');
-        setIsDragging(false);
+        setIsPublic(true);
     };
 
     const handleSave = (e) => {
         e.preventDefault();
 
-        if (files.length === 0) {
-            alert('Please select at least one file to upload');
-            return;
-        }
-
-        const formData = new FormData();
-
-        files.forEach((file, index) => {
-            formData.append(`file${index}`, file);
-        });
-
-        formData.append('fileName', fileName);
-        formData.append('isPublic', isPublic);
-        formData.append('description', description);
-
-        console.log('Saving files:', {
-            files: files.map(f => f.name),
+        const formData = {
+            files,
             fileName,
             isPublic,
             description
-        });
+        };
+
+        console.log('Saving files:', formData);
 
         handleClose();
         navigate('/home-posted');
@@ -90,102 +78,100 @@ export function SharePopup({ trigger, setTrigger }) {
         <div className="share-popup-overlay" onClick={handleClose}>
             <div className="share-popup-content" onClick={(e) => e.stopPropagation()}>
 
-                <h2 className="share-title">Upload Files</h2>
+                <div className="popup-header">
+                    <h2 className="popup-title">Upload Files</h2>
+                </div>
 
-                <form onSubmit={handleSave}>
-                    <div
-                        className={`drop-zone ${isDragging ? 'dragging' : ''}`}
-                        onDragOver={handleDragOver}
-                        onDragLeave={handleDragLeave}
-                        onDrop={handleDrop}
-                    >
-                        {files.length > 0 ? (
+                <form onSubmit={handleSave} className="popup-form">
+                    <div className="upload-section">
+                        <div
+                            className={`file-upload-area ${isDragging ? 'dragging' : ''}`}
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            onClick={handleBrowseClick}
+                        >
+                            <p className="upload-text">Drag and drop files here</p>
+                            <p className="upload-subtext">or</p>
+                            <p className="upload-subtext">Browse to upload files</p>
+
+                            <input
+                                id="file-input"
+                                type="file"
+                                className="file-input"
+                                multiple
+                                accept="image/*"
+                                onChange={handleFileSelect}
+                            />
+                        </div>
+
+                        {files.length > 0 && (
                             <div className="file-preview">
-                                <p className="file-count">{files.length} file(s) selected:</p>
-                                <ul className="file-list">
-                                    {files.map((file, index) => (
-                                        <li key={index}>{file.name}</li>
-                                    ))}
-                                </ul>
-                            </div>
-                        ) : (
-                            <div className="drop-zone-content">
-                                <p>Drag and drop files here</p>
-                                <p>or</p>
-                                <button
-                                    type="button"
-                                    className="browse-button"
-                                    onClick={handleBrowseClick}
-                                >
-                                    Browse to upload files
-                                </button>
+                                {files.map((file, index) => (
+                                    <div key={index} className="file-chip">
+                                        <span>{file.name}</span>
+                                        <button
+                                            type="button"
+                                            className="remove-file"
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                setFiles(files.filter((_, i) => i !== index));
+                                            }}
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                ))}
                             </div>
                         )}
-
-                        <input
-                            id="file-input"
-                            type="file"
-                            multiple
-                            onChange={handleFileSelect}
-                            style={{ display: 'none' }}
-                        />
                     </div>
 
-                    <div className="form-fields">
-
+                    <div className="details-section">
                         <div className="form-group">
-                            <label htmlFor="file-name">File/s:</label>
+                            <label className="form-label">File/s:</label>
                             <input
-                                id="file-name"
                                 type="text"
+                                className="form-input"
                                 value={fileName}
                                 onChange={(e) => setFileName(e.target.value)}
-                                className="file-name-input"
                                 placeholder="File Name 1"
                             />
                         </div>
 
-                        <div className="form-group">
-                            <label>Privacy Status</label>
-                            <div className="toggle-container">
-                                <span className="toggle-label">
-                                    Posted as {isPublic ? 'public' : 'private'}
+                        <div className="privacy-toggle-container">
+                            <label className="form-label">Privacy Status</label>
+                            <div className="toggle-label" onClick={() => setIsPublic(!isPublic)}>
+                                <div className={`toggle-switch ${isPublic ? 'active' : ''}`}>
+                                    <div className={`toggle-slider ${isPublic ? 'active' : ''}`}></div>
+                                </div>
+                                <span className="toggle-text">
+                                    {isPublic ? 'Posted as public' : 'Turned on'}
                                 </span>
-                                <label className="toggle-switch">
-                                    <input
-                                        type="checkbox"
-                                        checked={isPublic}
-                                        onChange={(e) => setIsPublic(e.target.checked)}
-                                    />
-                                    <span className="toggle-slider"></span>
-                                </label>
                             </div>
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="description">Description</label>
+                            <label className="form-label">Description</label>
                             <textarea
-                                id="description"
+                                className="form-textarea"
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                className="description-textarea"
-                                rows="4"
-                                placeholder="Enter description..."
+                                placeholder="Add a description..."
                             />
                         </div>
-                    </div>
 
-                    <div className="button-group">
-                        <BorderedButton
-                            message="Save"
-                            size="pink"
-                            onClick={handleSave}
-                        />
-                        <BorderedButton
-                            message="Close"
-                            size="pink"
-                            onClick={handleClose}
-                        />
+                        <div className="popup-actions">
+                            <BorderedButton
+                                message='Save'
+                                size='pink'
+                                onClick={handleSave}
+                            />
+                            <BorderedButton
+                                message='Close'
+                                size='purple'
+                                onClick={handleClose}
+                            />
+                        </div>
                     </div>
                 </form>
             </div>

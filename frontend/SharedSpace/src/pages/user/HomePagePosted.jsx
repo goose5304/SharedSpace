@@ -16,6 +16,7 @@ import Nippon from '../../assets/arts/nippon.jpg';
 import Sakura from '../../assets/arts/sakura.jpg';
 import Ukiyo from '../../assets/arts/ukiyo.jpg';
 import { StreakBadge } from '../../components/StreakBadge';
+import { SharePopup } from '../../components/SharePopup';
 
 export function HomePagePosted() {
     const artWorks = [
@@ -74,6 +75,7 @@ export function HomePagePosted() {
     const friendArt = friends_artWorks[randomIndex]
 
     const [activeArt, setActiveArt] = useState(null);
+    const [showSharePopup, setShowSharePopup] = useState(false);
 
     return (
         <div className='home'>
@@ -87,7 +89,7 @@ export function HomePagePosted() {
                     <BorderedButton
                         message='Share'
                         size='pink'
-                        to='/home'
+                        onClick={() => setShowSharePopup(true)}
                     />
                 </div>
             </div>
@@ -208,6 +210,10 @@ export function HomePagePosted() {
                     </div>
                 </div>
             </div>
+            <SharePopup
+                trigger={showSharePopup}
+                setTrigger={setShowSharePopup}
+            />
         </div>
     )
 }

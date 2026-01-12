@@ -4,12 +4,12 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    animation: fadeIn 0.3s ease-in-out;
+    animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -23,246 +23,254 @@
 }
 
 .share-popup-content {
-    background-color: #ffffff;
+    background-color: #FAF3EB;
     border-radius: 20px;
-    padding: 30px;
+    padding: 2.5rem;
     width: 90%;
-    max-width: 600px;
+    max-width: 800px;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    animation: scaleIn 0.3s ease-in-out;
     position: relative;
+    animation: slideUp 0.3s ease;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes scaleIn {
+@keyframes slideUp {
     from {
-        transform: scale(0.9);
+        transform: translateY(50px);
         opacity: 0;
     }
 
     to {
-        transform: scale(1);
+        transform: translateY(0);
         opacity: 1;
     }
 }
 
-.share-title {
-    margin: 0 0 20px 0;
-    font-size: 24px;
-    font-weight: 600;
-    color: #333;
-}
-
-form {
+.popup-header {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.drop-zone {
-    background-color: #e0e0e0;
-    border: 2px dashed #999;
-    border-radius: 12px;
-    padding: 40px 20px;
-    display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    min-height: 200px;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    margin-bottom: 2rem;
 }
 
-.drop-zone.dragging {
-    background-color: #d0d0ff;
-    border-color: #6666ff;
-    transform: scale(1.02);
-}
-
-.drop-zone:hover {
-    background-color: #d5d5d5;
-    border-color: #666;
-}
-
-.drop-zone-content {
-    text-align: center;
-    color: #666;
-}
-
-.drop-zone-content p {
-    margin: 10px 0;
-    font-size: 16px;
-}
-
-.browse-button {
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: #fff;
-    border: 2px solid #999;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.browse-button:hover {
-    background-color: #f0f0f0;
-    border-color: #666;
-}
-
-.file-preview {
-    text-align: center;
-    width: 100%;
-}
-
-.file-count {
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.file-list {
-    list-style: none;
-    padding: 0;
+.popup-title {
+    font-size: 28px;
+    font-weight: bold;
+    color: #5C5A7B;
     margin: 0;
 }
 
-.file-list li {
-    padding: 8px;
-    background-color: #f5f5f5;
-    margin: 5px 0;
-    border-radius: 6px;
-    color: #555;
-    font-size: 14px;
+.popup-form {
+    display: flex;
+    gap: 2rem;
+    flex-direction: row;
 }
 
-.form-fields {
+.upload-section {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+}
+
+.details-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.file-upload-area {
+    border: 3px dashed #C4B5A0;
+    border-radius: 12px;
+    background-color: #E8DFD3;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-height: 200px;
+    height: 23rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.file-upload-area.dragging {
+    background-color: #D4C8B8;
+    border-color: #8785A2;
+    transform: scale(1.02);
+}
+
+.file-upload-area:hover {
+    background-color: #DDD3C5;
+    border-color: #8785A2;
+}
+
+.upload-text {
+    color: #5C5A7B;
+    font-size: 15px;
+    margin: 0;
+}
+
+.upload-subtext {
+    color: #8785A2;
+    font-size: 13px;
+    margin: 0;
+}
+
+.file-input {
+    display: none;
+}
+
+.file-preview {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.file-chip {
+    background-color: #8785A2;
+    color: #FAF3EB;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.remove-file {
+    background: none;
+    border: none;
+    color: #FAF3EB;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+    line-height: 1;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
-    gap: 8px;
 }
 
-.form-group label {
+.form-label {
     font-size: 14px;
     font-weight: 600;
-    color: #333;
+    color: #5C5A7B;
 }
 
-.file-name-input {
-    padding: 10px 12px;
-    border: 1px solid #ccc;
+.form-input {
+    padding: 0.75rem 1rem;
+    border: none;
     border-radius: 8px;
+    background-color: #E8DFD3;
+    color: #5C5A7B;
     font-size: 14px;
-    transition: border-color 0.2s ease;
+    font-family: inherit;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1),
+        inset -1px -1px 3px rgba(255, 255, 255, 0.5);
+    transition: all 0.2s ease;
 }
 
-.file-name-input:focus {
+.form-input:focus {
     outline: none;
-    border-color: #6666ff;
+    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.15),
+        inset -1px -1px 3px rgba(255, 255, 255, 0.5);
 }
 
-.toggle-container {
+.form-textarea {
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #E8DFD3;
+    color: #5C5A7B;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 100px;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1),
+        inset -1px -1px 3px rgba(255, 255, 255, 0.5);
+    transition: all 0.2s ease;
+}
+
+.form-textarea:focus {
+    outline: none;
+    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.15),
+        inset -1px -1px 3px rgba(255, 255, 255, 0.5);
+}
+
+.privacy-toggle-container {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .toggle-label {
-    font-size: 13px;
-    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
 }
 
 .toggle-switch {
     position: relative;
-    display: inline-block;
     width: 50px;
     height: 26px;
-    flex-shrink: 0;
+    background-color: #E8DFD3;
+    border-radius: 13px;
+    transition: background-color 0.3s ease;
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.toggle-switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+.toggle-switch.active {
+    background-color: #D9899F;
 }
 
 .toggle-slider {
     position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: 0.3s;
-    border-radius: 26px;
-}
-
-.toggle-slider:before {
-    position: absolute;
-    content: "";
-    height: 20px;
-    width: 20px;
+    top: 3px;
     left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: 0.3s;
+    width: 20px;
+    height: 20px;
+    background-color: #FAF3EB;
     border-radius: 50%;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-input:checked+.toggle-slider {
-    background-color: #ff9999;
-}
-
-input:checked+.toggle-slider:before {
+.toggle-slider.active {
     transform: translateX(24px);
 }
 
-.description-textarea {
-    padding: 10px 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+.toggle-text {
     font-size: 14px;
-    font-family: inherit;
-    resize: vertical;
-    transition: border-color 0.2s ease;
+    color: #8785A2;
 }
 
-.description-textarea:focus {
-    outline: none;
-    border-color: #6666ff;
-}
-
-.button-group {
+.popup-actions {
     display: flex;
-    gap: 10px;
     justify-content: flex-end;
-    margin-top: 10px;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid #E8DFD3;
 }
 
 @media (max-width: 768px) {
-    .share-popup-content {
-        width: 95%;
-        padding: 20px;
-    }
-
-    .share-title {
-        font-size: 20px;
-    }
-
-    .drop-zone {
-        min-height: 150px;
-        padding: 30px 15px;
-    }
-
-    .button-group {
+    .popup-form {
         flex-direction: column;
+    }
+
+    .share-popup-content {
+        padding: 1.5rem;
+        width: 95%;
+    }
+
+    .popup-title {
+        font-size: 24px;
     }
 }
