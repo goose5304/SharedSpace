@@ -145,7 +145,7 @@ export function SharePopup({ trigger, setTrigger }) {
                                     <div className={`toggle-slider ${isPublic ? 'active' : ''}`}></div>
                                 </div>
                                 <span className="toggle-text">
-                                    {isPublic ? 'Posted as public' : 'Turned on'}
+                                    {isPublic ? 'Posted as public' : 'Posted as private'}
                                 </span>
                             </div>
                         </div>
