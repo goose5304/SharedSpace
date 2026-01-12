@@ -2,23 +2,32 @@ import SampleImg from '../../assets/SharedSpaceLogo.svg'
 import SampleImg2 from '../../assets/react.svg'
 import './LeaderboardPage.css'
 
-export function LeaderboardPage(){
+export function LeaderboardPage() {
+    /**
+     * Array of top 5 ranked users
+     * @type {Array<{img: string, name: string, score: number}>}
+     */
     const ranking5 = [
-        {img: SampleImg, name: 'Arian', score: 100},
-        {img: SampleImg2, name: 'Elisha', score: 95},
-        {img: SampleImg, name: 'Angus', score: 91},
-        {img: SampleImg2, name: 'Vince', score: 90},
-        {img: SampleImg, name: 'Nathaniel', score: 89},
+        { img: SampleImg, name: 'Arian', score: 100 },
+        { img: SampleImg2, name: 'Elisha', score: 95 },
+        { img: SampleImg, name: 'Angus', score: 91 },
+        { img: SampleImg2, name: 'Vince', score: 90 },
+        { img: SampleImg, name: 'Nathaniel', score: 89 },
     ]
 
+    /**
+     * Color gradient for ranking bars (darkest to lightest)
+     * @type {Array<string>}
+     */
     const colors = ['#CB6D6D', '#EF8C8C', '#EDA8A8', '#FFE2E2', '#FFE2E2'];
 
-    return(
+    return (
         <div className="leaderboardBody">
             <h1 className="leaderboard-title">Leaderboard</h1>
             <p className="leaderboard-subtitle">Users with the most consecutive days active</p>
 
             <div className="leaderboard-container">
+                {/* Map through rankings and apply gradient colors */}
                 {ranking5.map((user, index) => (
                     <div 
                         key={index} 
