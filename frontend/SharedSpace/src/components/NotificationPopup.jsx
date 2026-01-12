@@ -1,4 +1,7 @@
-import './NotificationPopup.css'
+// For notification popup.
+import './NotificationPopup.css' // Import CSS.
+
+// ____________________________________________________________________________________________________
 
 export function NotificationPopup({ onClose }) {
     return (
@@ -6,13 +9,35 @@ export function NotificationPopup({ onClose }) {
             <div className="notification-popup">
                 <div className="notification-popup-top">
                     <div className="notification-popup-header">
-                        NOTIFICATIONS
+                        NOTIFICATIONS  {/* Header. */}
                     </div>
 
-                    <button className="notification-close-button" onClick={onClose}>Close</button>
+                    <button className="notification-close-button" onClick={onClose}>
+                        Close  {/* Button closes popup. */}
+                    </button>
                 </div>
 
+                {/* Notifcation list. */}
                 <ul className="notification-popup-list">
+
+                    {/* Sample unread notification. */}
+                    <li className="notification-unread">
+                        <div className = "notification-info">
+                            <div className="notification-type">
+                                unread notif  {/* Notifcation type. */}
+                            </div>
+
+                            <div className="notification-time">
+                                time passed  {/* Notification time. */}
+                            </div> 
+                        </div>
+
+                        <div className="notification-content">
+                            notification content  {/* Notification summary. */}
+                        </div>
+                    </li>
+
+                    {/* Sample unread notification. */}
                     <li className="notification-unread">
                         <div className = "notification-info">
                             <div className="notification-type">
@@ -29,22 +54,7 @@ export function NotificationPopup({ onClose }) {
                         </div>
                     </li>
 
-                    <li className="notification-unread">
-                        <div className = "notification-info">
-                            <div className="notification-type">
-                                unread notif
-                            </div>
-
-                            <div className="notification-time">
-                                time passed
-                            </div>
-                        </div>
-
-                        <div className="notification-content">
-                            notification content
-                        </div>
-                    </li>
-
+                    {/* Sample read notification. */}
                     <li className="notification-read">
                         <div className="notification-info-read">
                             <div className="notification-type-read">
@@ -61,6 +71,7 @@ export function NotificationPopup({ onClose }) {
                         </div>
                     </li>
 
+                    {/* Sample read notification. */}
                     <li className="notification-read">
                         <div className="notification-info-read">
                             <div className="notification-type-read">

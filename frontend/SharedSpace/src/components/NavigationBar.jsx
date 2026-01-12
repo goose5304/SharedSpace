@@ -1,17 +1,24 @@
-import './NavigationBar.css'
+// For the navigation bar.
+import './NavigationBar.css'                                 // Import CSS.
 import { Link } from 'react-router-dom'
 import SharedSpaceLogo from '../assets/SharedSpaceLogo.svg'
+
+// ____________________________________________________________________________________________________
 
 export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications }) {
     return (
         <nav className='navbar'>
+            {/* Logo redirects to home page. */}
             <Link to="/home">
                 <div className='navbar-component-logo'>
                     <img src={SharedSpaceLogo} alt="Shared Space" height="55" width="55" className="navbar-logo" />
                 </div>
             </Link>
 
+            {/* Icons in navbar's center. */}
             <div className='center-icons'>
+
+                {/* Friends' Space icon. */}
                 <Link to="/friends-space">
                     <svg className='navbar-icon' width="35" height="35" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M300 472.063C300 438.911 286.83 407.117 263.388 383.675C239.946 360.233 208.152 347.063 175 347.063C141.848 347.063 110.054 360.233 86.6117 383.675C63.1696 407.117 50 438.911 50 472.063H175H300Z" fill="#341539" />
@@ -22,6 +29,7 @@ export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications 
                     </svg>
                 </Link>
 
+                {/* Art Wall icon. */}
                 <Link to="/art-wall">
                     <svg className="navbar-icon" width="35" height="35" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M239.11 76.656V423.344H76.8896V76.656H239.11Z" stroke="#341539" stroke-width="27.78" />
@@ -33,6 +41,7 @@ export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications 
                     </svg>
                 </Link>
 
+                {/* Leaderboard icon. */}
                 <Link to="/leaderboard">
                     <svg className="navbar-icon" width="35" height="35" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M439 270H313V406H439V270Z" stroke="#341539" stroke-width="27.78" />
@@ -46,6 +55,7 @@ export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications 
                     </svg>
                 </Link>
 
+                {/* Challenges icon. */}
                 <Link to="/challenges">
                     <svg className="navbar-icon" width="35" height="35" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_0_1)">
@@ -72,7 +82,10 @@ export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications 
                 </Link>
             </div>
 
+            {/* Icons in navbar's right-hand side. */}
             <div className='right-icons'>
+
+                {/* Notification icon. */}
                 <div className="navbar-notification-icon" onClick={onNotifications}>
                     <svg className="navbar-icon" width="35" height="35" viewBox="0 -50 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_0_1)">
@@ -105,9 +118,11 @@ export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications 
                         </defs>
                     </svg>
 
+                    {/* Indicator appears for new notifications. */}
                     {hasNewNotifications && <span className="notification-indicator"></span>}
                 </div>
 
+                {/* Sign-out icon. */}
                 <button onClick={onSignOut} className="navbar-sign-out-icon">
                     <svg className="navbar-icon" width="35" height="35" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="35.613" y="60.1334" width="240" height="27.78" fill="#341539" />
@@ -122,6 +137,7 @@ export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications 
                     </svg>
                 </button>
 
+                {/* Profile icon. */}
                 <Link to="/profile">
                     <svg className="navbar-icon navbar-profile-icon" width="38" height="38" viewBox="0 -33 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M130.205 373.388C130.205 385.849 142.877 397.799 165.434 406.61C187.99 415.421 218.582 420.371 250.481 420.371C282.38 420.371 312.973 415.421 335.529 406.61C358.085 397.799 370.757 385.849 370.757 373.388H250.481H130.205Z" fill="#341539" />
