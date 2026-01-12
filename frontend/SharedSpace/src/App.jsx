@@ -2,6 +2,7 @@ import './App.css'
 import "@fontsource/poppins"
 import { useLocation } from 'react-router-dom'
 import { useState } from 'react'
+import { ModNavigationBar } from './components/ModNavigationBar'
 import { NavigationBar } from './components/NavigationBar'
 import { Routes, Route } from 'react-router-dom'
 import { ArtWallPage } from './pages/user/ArtWallPage.jsx'
