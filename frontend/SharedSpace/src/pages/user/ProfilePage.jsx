@@ -3,6 +3,7 @@ import { ArtPopup } from '../../components/ArtPopup';
 import { BorderedButton } from '../../components/BorderedButton';
 import { EditProfilePopup } from '../../components/EditProfilePopup';
 import { FriendsPopup } from '../../components/FriendsPopup';
+import { SharePopup } from '../../components/SharePopup';
 import SampleImg from '../../assets/arts/ukiyo.jpg';
 import SampleImg2 from '../../assets/arts/almondtree.jpg';
 import './ProfilePage.css';
@@ -133,6 +134,7 @@ export function ProfilePage() {
   // EDIT PROFILE LOGIC
   const [showEditProfile, setShowEditProfile] = useState(false);
   const [showFriendsPopup, setShowFriendsPopup] = useState(false);
+  const [showSharePopup, setShowSharePopup] = useState(false);
 
   /**
    * Updates the user state with new data from the EditProfilePopup.
@@ -196,6 +198,12 @@ export function ProfilePage() {
         onClose={() => setShowFriendsPopup(false)}
       />
 
+      {/* Share Artwork Popup */}
+      <SharePopup
+        trigger={showSharePopup}
+        setTrigger={setShowSharePopup}
+      />
+
       {/* HEADER SECTION */}
       <div className="profile-header">
         <div className="profile-info-container">
@@ -241,7 +249,14 @@ export function ProfilePage() {
           {/* RECENT POSTS */}
           <div className="card-shadow">
             <div className="sidebar-card">
-              <h2 className="sidebar-title">Recent Posts</h2>
+              <div className="sidebar-title-row">
+                <h2 className="sidebar-title">Recent Posts</h2>
+                <BorderedButton
+                  onClick={() => setShowSharePopup(true)}
+                  message="Share"
+                  size="purple"
+                />
+              </div>
 
               <div className="posts-scroll">
                 <div className="posts-grid">
