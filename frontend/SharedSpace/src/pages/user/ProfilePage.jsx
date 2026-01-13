@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArtPopup } from '../../components/ArtPopup';
 import { BorderedButton } from '../../components/BorderedButton';
 import { EditProfilePopup } from '../../components/EditProfilePopup';
@@ -21,10 +21,11 @@ import './ProfilePage.css';
 
 export function ProfilePage() {
   const [user, setUser] = useState({
-    username: "Feesha",
-    bio: "gah",
-    streakCount: 12,
+    username: "",
+    bio: "",
+    streakCount: 0,
     avatar: SampleImg,
+    profilePicture: "",
     posts: [
       { img: SampleImg },
       { img: SampleImg2 },
@@ -60,6 +61,35 @@ export function ProfilePage() {
     ]
   });
 
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+
+      try {
+        const response = await fetch('http://localhost:3000/api/users/me', {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        if (response.ok) {
+          const userData = await response.json();
+          setUser(prev => ({
+            ...prev,
+            username: userData.username,
+            bio: userData.bio || "",
+            streakCount: userData.streakCount,
+            profilePicture: userData.profilePicture,
+            avatar: userData.profilePicture || SampleImg,
+          }));
+        }
+      } catch (error) {
+        console.error('Error fetching user:', error);
+      }
+    };
+    fetchUser();
+  }, []);
+
   // State for the currently selected artwork to display in the popup
   const [activeArt, setActiveArt] = useState(null);
 
@@ -86,11 +116,35 @@ export function ProfilePage() {
    * Updates the user state with new data from the EditProfilePopup.
    * updatedData - The new user data (username, bio, etc.)
    */
-  const handleSaveProfile = (updatedData) => {
-    setUser(prev => ({
-      ...prev,
-      ...updatedData
-    }));
+  const handleSaveProfile = async (updatedData) => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+
+    try {
+      const response = await fetch('http://localhost:3000/api/users/update', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(updatedData),
+      });
+
+      if (response.ok) {
+        const updatedUser = await response.json();
+        setUser(prev => ({
+          ...prev,
+          username: updatedUser.username,
+          bio: updatedUser.bio,
+          profilePicture: updatedUser.profilePicture,
+          avatar: updatedUser.profilePicture || SampleImg,
+        }));
+      } else {
+        console.error('Failed to update profile');
+      }
+    } catch (error) {
+      console.error('Error updating profile:', error);
+    }
   };
 
   return (
