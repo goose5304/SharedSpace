@@ -17,7 +17,8 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
         username: '',
         bio: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        profilePicture: null
     });
 
     // Update form data when the user prop changes or popup opens
@@ -28,7 +29,8 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
                 username: user.username || '',
                 bio: user.bio || '',
                 password: '',
-                confirmPassword: ''
+                confirmPassword: '',
+                profilePicture: null
             }));
         }
     }, [user, isOpen]);
@@ -39,19 +41,56 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    // Handle file changes
+    const handleFileChange = (e) => {
+        setFormData(prev => ({ ...prev, profilePicture: e.target.files[0] }));
+    };
+
     // Handle form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.confirmPassword) {
             alert("Passwords do not match!");
             return;
+        }
+
+        const token = localStorage.getItem('token');
+        let profilePictureURL = '';
+
+        // Upload profile picture if selected
+        if (formData.profilePicture) {
+            const formDataUpload = new FormData();
+            formDataUpload.append('file', formData.profilePicture);
+
+            try {
+                const uploadResponse = await fetch('http://localhost:3000/api/artworks/upload', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                    },
+                    body: formDataUpload,
+                });
+
+                if (uploadResponse.ok) {
+                    const uploadData = await uploadResponse.json();
+                    profilePictureURL = uploadData.imageURL;
+                } else {
+                    alert('Failed to upload profile picture');
+                    return;
+                }
+            } catch (error) {
+                console.error('Upload error:', error);
+                alert('Error uploading profile picture');
+                return;
+            }
         }
         
         // Prepare data object, only including password if it was changed
         const dataToSave = {
             username: formData.username,
             bio: formData.bio,
-            ...(formData.password ? { password: formData.password } : {})
+            ...(formData.password ? { password: formData.password } : {}),
+            ...(profilePictureURL ? { profilePicture: profilePictureURL } : {})
         };
 
         onSave(dataToSave);
@@ -81,6 +120,14 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
                             name="bio"
                             value={formData.bio}
                             onChange={handleChange}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label>Profile Picture</label>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
                         />
                     </div>
                     <div className="form-group">
