@@ -89,7 +89,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     min-height: 200px;
-    height: 23rem;
+    height: 25rem;
     display: flex;
     flex-direction: column;
     justify-content: center;

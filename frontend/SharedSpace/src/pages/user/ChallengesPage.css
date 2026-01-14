@@ -33,7 +33,7 @@
 .challenge-tag-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0;
 }
 
 .challenge-tag {
@@ -46,6 +46,7 @@
     font-weight: 700;
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease;
+    margin-top: 0;
 }
 
 .challenge-tag:hover {
@@ -59,7 +60,7 @@
     justify-content: space-between;
     align-items: center;
     gap: 4rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 .description-box {
@@ -111,7 +112,7 @@
 }
 
 .view-all-challenges-button {
-    margin-top: 2rem;
+    margin-top: 0rem;
     display: flex;
     justify-content: center;
 }

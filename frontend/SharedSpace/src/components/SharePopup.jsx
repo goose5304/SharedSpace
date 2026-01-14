@@ -8,6 +8,7 @@ export function SharePopup({ trigger, setTrigger }) {
     const [files, setFiles] = useState([]);
     const [fileName, setFileName] = useState('File Name 1');
     const [isPublic, setIsPublic] = useState(true);
+    const [selectedChallenge, setSelectedChallenge] = useState('');
     const [description, setDescription] = useState('');
     const [isDragging, setIsDragging] = useState(false);
     const [isUploading, setIsUploading] = useState(false);
@@ -17,6 +18,10 @@ export function SharePopup({ trigger, setTrigger }) {
         return null;
     }
 
+    const challenges = [
+        { id: '1', title: '10-MinuteSketch' },
+    ];
+
     const handleClose = () => {
         if (isUploading) return; // Prevent closing during upload
         setTrigger(false);
@@ -24,6 +29,7 @@ export function SharePopup({ trigger, setTrigger }) {
         setFileName('File Name 1');
         setDescription('');
         setIsPublic(true);
+        setSelectedChallenge('');
         setUploadProgress('');
     };
 
@@ -215,6 +221,22 @@ export function SharePopup({ trigger, setTrigger }) {
                                     {isPublic ? 'Posted as public' : 'Posted as private'}
                                 </span>
                             </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label className="form-label">Challenge</label>
+                            <select
+                                className="form-input"
+                                value={selectedChallenge}
+                                onChange={(e) => setSelectedChallenge(e.target.value)}
+                            >
+                                <option value="">Select a challenge...</option>
+                                {challenges.map((challenge) => (
+                                    <option key={challenge.id} value={challenge.id}>
+                                        # {challenge.title}
+                                    </option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="form-group">

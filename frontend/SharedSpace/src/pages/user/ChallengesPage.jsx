@@ -117,6 +117,14 @@ export function ChallengesPage() {
                     <div className="challenge-tag"># {challenge.title}</div>
                 </div>
 
+                <div className="view-all-challenges-button">
+                    <BorderlessButton
+                        onClick={() => setShowChallengesPopup(true)}
+                        message="View All Challenges"
+                        type="darkbody"
+                    />
+                </div>
+
                 <div className="challenge-content">
                     <div className="description-box">
                         <p>
@@ -131,14 +139,6 @@ export function ChallengesPage() {
                             </div>
                         ))}
                     </div>
-                </div>
-
-                <div className="view-all-challenges-button">
-                    <BorderlessButton
-                        onClick={() => setShowChallengesPopup(true)}
-                        message="View All Challenges"
-                        type="darkbody"
-                    />
                 </div>
             </div>
 
