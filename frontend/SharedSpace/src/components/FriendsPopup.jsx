@@ -226,7 +226,7 @@ export function FriendsPopup({ isOpen, onClose }) {
         // Placeholders for search bar.
         let placeholder = "Search List";
         if (activeTab === "Friend Requests") placeholder = "Search Requests";
-        if (activeTab === "Add Friend") placeholder = "Search Outgoing";
+        if (activeTab === "Add Friend") placeholder = "Search Users";
 
         return (
             <div className="friends-header">
@@ -326,7 +326,7 @@ export function FriendsPopup({ isOpen, onClose }) {
                         <span className="search-icon">🔍</span>
                         <input
                             type="text"
-                            placeholder="Search Users"
+                            placeholder="Finding somebody?"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
