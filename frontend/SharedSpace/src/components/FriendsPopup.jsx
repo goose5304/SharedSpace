@@ -1,10 +1,11 @@
 // For the friends popup.
 import './FriendsPopup.css';                             // Import CSS.
 import React, { useState, useEffect } from 'react';
+import API_BASE_URL from '../apiConfig';
 
 // ____________________________________________________________________________________________________
 
-const BASE_URL = 'http://localhost:3000'
+const BASE_URL = API_BASE_URL
 
 function authHeaders() {
     const token = localStorage.getItem('token');
@@ -120,7 +121,7 @@ export function FriendsPopup({ isOpen, onClose }) {
             });
             console.log("Search response status:", response.status);
             const data = await response.json();
-            
+
             setSearchResults(Array.isArray(data) ? data : [data]);
         } catch (err) {
             console.error("Error - unable to search:", err);
@@ -243,14 +244,14 @@ export function FriendsPopup({ isOpen, onClose }) {
 
                 {/* Header text and search bar. */}
                 <div className="title-search">
-                    <h1>Friends</h1> 
+                    <h1>Friends</h1>
                     <div className="search-bar">
                         <span className="search-icon">🔍</span>
                         <input
                             type="text"
                             placeholder={placeholder}
                             value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}  
+                            onChange={(e) => setSearchQuery(e.target.value)}
                         />
                     </div>
                 </div>
@@ -285,7 +286,7 @@ export function FriendsPopup({ isOpen, onClose }) {
         if (activeTab === 'Friend List') {
 
             // Show friends' usernames containing search query.
-            const filteredFriends = friendsList.filter(friend => 
+            const filteredFriends = friendsList.filter(friend =>
                 friend.username.toLowerCase().includes(searchQuery.toLowerCase())
             );
 
@@ -293,13 +294,13 @@ export function FriendsPopup({ isOpen, onClose }) {
                 <div className="friends-content-list">
                     {filteredFriends.length > 0 ? (
                         filteredFriends.map((friend, index) => (
-                        <div key={friend._id} className={`friend-row ${index % 2 === 0 ? 'even' : 'odd'}`}>
-                            <div className="friend-info">
-                                <img src={friend.profilePicture || "/defaultAvatar.png"} alt={friend.username} className="row-avatar" />  {/* Class name for styling. */}
-                                <span className="row-username">{friend.username}</span>
+                            <div key={friend._id} className={`friend-row ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                                <div className="friend-info">
+                                    <img src={friend.profilePicture || "/defaultAvatar.png"} alt={friend.username} className="row-avatar" />  {/* Class name for styling. */}
+                                    <span className="row-username">{friend.username}</span>
+                                </div>
+                                <button className="action-btn remove-btn" onClick={() => handleRemoveFriend(friend._id)}>✖</button>           {/* Button to remove friend. */}
                             </div>
-                            <button className="action-btn remove-btn" onClick={() => handleRemoveFriend(friend._id)}>✖</button>           {/* Button to remove friend. */}
-                        </div>
                         ))
                     ) : (
                         <p className="status-message">No friends yet.</p>
@@ -309,7 +310,7 @@ export function FriendsPopup({ isOpen, onClose }) {
         } else if (activeTab === 'Friend Requests') {
 
             // Show friend requests' usernames containing search query.
-            const filteredRequests = friendRequests.filter(friend => 
+            const filteredRequests = friendRequests.filter(friend =>
                 friend.username.toLowerCase().includes(searchQuery.toLowerCase())
             );
 
@@ -317,16 +318,16 @@ export function FriendsPopup({ isOpen, onClose }) {
                 <div className="friends-content-list">
                     {filteredRequests.length > 0 ? (
                         filteredRequests.map((req, index) => (
-                        <div key={req._id} className={`request-row ${index % 2 === 0 ? 'even' : 'odd'}`}>                            {/* Class name for styling. */}
-                            <div className="friend-info">
-                                <img src={req.profilePicture || "/defaultAvatar.png"} alt={req.username} className="row-avatar" />
-                                <span className="row-username">{req.username}</span>
+                            <div key={req._id} className={`request-row ${index % 2 === 0 ? 'even' : 'odd'}`}>                            {/* Class name for styling. */}
+                                <div className="friend-info">
+                                    <img src={req.profilePicture || "/defaultAvatar.png"} alt={req.username} className="row-avatar" />
+                                    <span className="row-username">{req.username}</span>
+                                </div>
+                                <div className="action-group">
+                                    <button className="action-btn accept-btn" onClick={() => handleAcceptRequest(req._id)}>✔</button>    {/* Button to accept request. */}
+                                    <button className="action-btn decline-btn" onClick={() => handleDeclineRequest(req._id)}>✖</button>  {/* Button to decline request. */}
+                                </div>
                             </div>
-                            <div className="action-group">
-                                <button className="action-btn accept-btn" onClick={() => handleAcceptRequest(req._id)}>✔</button>    {/* Button to accept request. */}
-                                <button className="action-btn decline-btn" onClick={() => handleDeclineRequest(req._id)}>✖</button>  {/* Button to decline request. */}
-                            </div>
-                        </div>
                         ))
                     ) : (
                         <p className="status-message">No new requests.</p>
@@ -341,13 +342,13 @@ export function FriendsPopup({ isOpen, onClose }) {
                     <div className="add-friend-top">
                         <h2>Add a new friend today!</h2>
                         <form className="users-search" onSubmit={handleSearch}>
-                        <span className="search-icon">🔍</span>
-                        <input
-                            type="text"
-                            placeholder="Finding somebody?"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
+                            <span className="search-icon">🔍</span>
+                            <input
+                                type="text"
+                                placeholder="Finding somebody?"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
                         </form>
 
                         {statusMessage && <p className="status-message">{statusMessage}</p>}
@@ -356,16 +357,16 @@ export function FriendsPopup({ isOpen, onClose }) {
                     <div className="friends-content-list">
                         {Array.isArray(searchResults) && searchResults.length > 0 ? (
                             searchResults.map((user, index) => (
-                            <div key={`${user._id || index}`} className={`friend-row ${index % 2 === 0 ? 'even' : 'odd'}`}>               {/* Class name for styling. */}
-                                <div className="friend-info">
-                                    <img src={user.profilePicture || "/defaultAvatar.png"} alt={user.username} className="row-avatar" />
-                                    <span className="row-username">{user.username}</span>
+                                <div key={`${user._id || index}`} className={`friend-row ${index % 2 === 0 ? 'even' : 'odd'}`}>               {/* Class name for styling. */}
+                                    <div className="friend-info">
+                                        <img src={user.profilePicture || "/defaultAvatar.png"} alt={user.username} className="row-avatar" />
+                                        <span className="row-username">{user.username}</span>
+                                    </div>
+                                    <button className="action-btn add-btn" onClick={() => handleAddFriend(user._id)}>✚</button>               {/* Button to send friend request. */}
                                 </div>
-                                <button className="action-btn add-btn" onClick={() => handleAddFriend(user._id)}>✚</button>               {/* Button to send friend request. */}
-                            </div>
                             ))
                         ) : (
-                            <p className = "status-message">No users found.</p>
+                            <p className="status-message">No users found.</p>
                         )}
                     </div>
                 </div>
@@ -380,7 +381,7 @@ export function FriendsPopup({ isOpen, onClose }) {
                 {renderHeader()}                {/* Popup header. */}
                 <div className="friends-body">
                     {renderContent()}           {/* Popup body. */}
-                </div> 
+                </div>
             </div>
         </div>
     );

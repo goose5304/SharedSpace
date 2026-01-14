@@ -1,2 +1,17 @@
-node_modules
+# Common
+node_modules/
 .env
+.DS_Store
+*.log
+.vscode/
+.idea/
+
+# Backend
+backend/node_modules/
+backend/.env
+
+# Frontend
+frontend/SharedSpace/node_modules/
+frontend/SharedSpace/dist/
+frontend/SharedSpace/dist-ssr/
+frontend/SharedSpace/*.local

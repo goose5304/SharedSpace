@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SampleImg from '../../assets/arts/ukiyo.jpg';
 import SampleImg2 from '../../assets/arts/almondtree.jpg';
 import './ModDashboardPage.css';
+import API_BASE_URL from '../../apiConfig';
 
 export function ModDashboardPage() {
   const [activeTab, setActiveTab] = useState('users');
@@ -16,7 +17,7 @@ export function ModDashboardPage() {
 
       try {
         // Fetch users
-        const usersResponse = await fetch('http://localhost:3000/api/users/all', {
+        const usersResponse = await fetch(`${API_BASE_URL}/api/users/all`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -36,7 +37,7 @@ export function ModDashboardPage() {
         }
 
         // Fetch reports
-        const reportsResponse = await fetch('http://localhost:3000/api/reports/', {
+        const reportsResponse = await fetch(`${API_BASE_URL}/api/reports/`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -67,13 +68,13 @@ export function ModDashboardPage() {
         <div className="mod-sidebar">
           <div className="card-shadow sidebar-panel">
             <div className="panel-header">Panel</div>
-            <button 
+            <button
               className={`mod-nav-btn ${activeTab === 'users' ? 'active' : ''}`}
               onClick={() => setActiveTab('users')}
             >
               Users
             </button>
-            <button 
+            <button
               className={`mod-nav-btn ${activeTab === 'reports' ? 'active' : ''}`}
               onClick={() => setActiveTab('reports')}
             >

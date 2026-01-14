@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArtPopup } from '../../components/ArtPopup';
 import { SharePopup } from '../../components/SharePopup';
+import API_BASE_URL from '../../apiConfig';
 import Share from '../../assets/ShareYourDay.svg'
 import SampleImg from '../../assets/SharedSpaceLogo.svg'
 import SampleImg2 from '../../assets/react.svg'
@@ -65,7 +66,7 @@ export function HomePage() {
             console.log('HomePage: Fetching user artworks...');
             console.log('HomePage: Token:', token ? 'Present' : 'Missing');
 
-            const response = await fetch('http://localhost:3000/api/artworks/my', {
+            const response = await fetch(`${API_BASE_URL}/api/artworks/my`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
@@ -112,7 +113,7 @@ export function HomePage() {
             const token = localStorage.getItem('token');
 
             console.log('HomePage: Fetching friends artworks...');
-            const response = await fetch('http://localhost:3000/api/artworks/friends', {
+            const response = await fetch(`${API_BASE_URL}/api/artworks/friends`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
@@ -143,7 +144,7 @@ export function HomePage() {
             const token = localStorage.getItem('token');
 
             console.log('HomePage: Fetching challenges...');
-            const response = await fetch('http://localhost:3000/api/challenges/all', {
+            const response = await fetch(`${API_BASE_URL}/api/challenges/all`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },

@@ -1,6 +1,7 @@
 import './ArtWallPage.css'
 import { ArtPopup } from '../../components/ArtPopup';
 import { useState, useEffect } from 'react';
+import API_BASE_URL from '../../apiConfig';
 import Almond from '../../assets/arts/almondtree.jpg';
 import August from '../../assets/arts/augustrenoire.jpg';
 import Cafe from '../../assets/arts/cafenight.jpg';
@@ -25,7 +26,7 @@ export function ArtWallPage() {
     useEffect(() => {
         const fetchArtWorks = async () => {
             try {
-                const res = await fetch("http://localhost:3000/api/artworks/all", {
+                const res = await fetch(`${API_BASE_URL}/api/artworks/all`, {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
                 });

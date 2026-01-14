@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { BorderedButton } from './BorderedButton';
 import toast from 'react-hot-toast';
 import './EditProfilePopup.css';
+import API_BASE_URL from '../apiConfig';
 
 /**
 * EditProfilePopup Component
@@ -79,7 +80,7 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
             formDataUpload.append('file', formData.profilePicture);
 
             try {
-                const uploadResponse = await fetch('http://localhost:3000/api/artworks/upload', {
+                const uploadResponse = await fetch(`${API_BASE_URL}/api/artworks/upload`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -120,7 +121,7 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
     const confirmDeleteAccount = async () => {
         const token = localStorage.getItem('token');
         try {
-            const response = await fetch('http://localhost:3000/api/users/delete', {
+            const response = await fetch(`${API_BASE_URL}/api/users/delete`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

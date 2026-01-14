@@ -3,6 +3,7 @@ import './NavigationBar.css'                                 // Import CSS.
 import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import SharedSpaceLogo from '../assets/SharedSpaceLogo.svg'
+import API_BASE_URL from '../apiConfig'
 
 // ____________________________________________________________________________________________________
 
@@ -18,7 +19,7 @@ export function NavigationBar({ onSignOut, hasNewNotifications, onNotifications 
             const token = localStorage.getItem('token');
             if (!token) return;
 
-            const response = await fetch('http://localhost:3000/api/artworks/my', {
+            const response = await fetch(`${API_BASE_URL}/api/artworks/my`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },

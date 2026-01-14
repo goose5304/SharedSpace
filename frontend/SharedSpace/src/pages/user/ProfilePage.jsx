@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import SampleImg from '../../assets/arts/ukiyo.jpg';
 import SampleImg2 from '../../assets/arts/almondtree.jpg';
 import './ProfilePage.css';
+import API_BASE_URL from '../../apiConfig';
 
 // Import Badge Assets
 import Streak1 from '../../assets/badges/streak-1.png';
@@ -59,7 +60,7 @@ export function ProfilePage() {
       if (!token) return;
 
       try {
-        const meResponse = await fetch('http://localhost:3000/api/users/me', {
+        const meResponse = await fetch(`${API_BASE_URL}/api/users/me`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -68,7 +69,7 @@ export function ProfilePage() {
         const meData = await meResponse.json();
         const userId = meData._id;
 
-        const userResponse = await fetch(`http://localhost:3000/api/users/${userId}`, {
+        const userResponse = await fetch(`${API_BASE_URL}/api/users/${userId}`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -89,7 +90,7 @@ export function ProfilePage() {
           }));
         }
 
-        const artworksResponse = await fetch('http://localhost:3000/api/artworks/my', {
+        const artworksResponse = await fetch(`${API_BASE_URL}/api/artworks/my`, {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
@@ -165,7 +166,7 @@ export function ProfilePage() {
     setShowDeleteConfirm(false);
     const deletePromise = (async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3000/api/artworks/delete-multiple', {
+      const response = await fetch(`${API_BASE_URL}/api/artworks/delete-multiple`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -215,7 +216,7 @@ export function ProfilePage() {
     if (!token) return;
 
     try {
-      const response = await fetch('http://localhost:3000/api/users/update', {
+      const response = await fetch(`${API_BASE_URL}/api/users/update`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

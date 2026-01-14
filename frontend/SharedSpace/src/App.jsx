@@ -19,6 +19,7 @@ import { IntroPage } from './pages/user/IntroPage.jsx'
 import { NotificationPopup } from './components/NotificationPopup'
 import { SignOutPopup } from './components/SignOutPopup'
 import { Toaster } from 'react-hot-toast';
+import API_BASE_URL from './apiConfig';
 
 function App() {
   const location = useLocation()
@@ -33,7 +34,7 @@ function App() {
       if (!token) return;
 
       try {
-        const response = await fetch('http://localhost:3000/api/notifications', {
+        const response = await fetch(`${API_BASE_URL}/api/notifications`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();

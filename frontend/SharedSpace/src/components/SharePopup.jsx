@@ -1,14 +1,15 @@
 import './SharePopup.css';
-import { useState, useEffect } from 'react'; 
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BorderedButton } from './BorderedButton';
+import API_BASE_URL from '../apiConfig';
 
 export function SharePopup({ trigger, setTrigger }) {
     const navigate = useNavigate();
     const [files, setFiles] = useState([]);
     const [artworkTitle, setArtworkTitle] = useState(''); // Initialize empty
     const [isPublic, setIsPublic] = useState(true);
-    const [challenges, setChallenges] = useState([]); 
+    const [challenges, setChallenges] = useState([]);
     const [selectedChallenge, setSelectedChallenge] = useState('');
     const [description, setDescription] = useState('');
     const [isDragging, setIsDragging] = useState(false);
@@ -21,14 +22,14 @@ export function SharePopup({ trigger, setTrigger }) {
             const fetchChallenges = async () => {
                 try {
                     const token = localStorage.getItem('token');
-                    const response = await fetch('http://localhost:3000/api/challenges/active', {
+                    const response = await fetch(`${API_BASE_URL}/api/challenges/active`, {
                         headers: { 'Authorization': `Bearer ${token}` }
                     });
 
                     if (response.ok) {
                         const data = await response.json();
-                        console.log("Active challenges in Frontend:", data); 
-                        
+                        console.log("Active challenges in Frontend:", data);
+
                         // Since it's now an array, we can set it directly
                         setChallenges(Array.isArray(data) ? data : [data]);
                     } else {
@@ -72,7 +73,7 @@ export function SharePopup({ trigger, setTrigger }) {
                 const formData = new FormData();
                 formData.append('file', file);
 
-                const uploadResponse = await fetch('http://localhost:3000/api/artworks/upload', {
+                const uploadResponse = await fetch(`${API_BASE_URL}/api/artworks/upload`, {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}` },
                     body: formData,
@@ -83,12 +84,12 @@ export function SharePopup({ trigger, setTrigger }) {
 
                 // 🛡️ 2. DECIDE ENDPOINT: Casual Post vs Challenge Submission
                 // If selectedChallenge exists, use the challenge submit API
-                const endpoint = selectedChallenge 
-                    ? 'http://localhost:3000/api/challenges/submit' 
-                    : 'http://localhost:3000/api/artworks/create/';
+                const endpoint = selectedChallenge
+                    ? `${API_BASE_URL}/api/challenges/submit`
+                    : `${API_BASE_URL}/api/artworks/create/`;
 
                 setUploadProgress(`Submitting ${file.name}...`);
-                
+
                 await fetch(endpoint, {
                     method: 'POST',
                     headers: {
@@ -215,7 +216,7 @@ export function SharePopup({ trigger, setTrigger }) {
                                 {challenges.map((c) => (
                                     <option key={c._id} value={c._id}>
                                         {/* 🛡️ Fixed: Use c.title instead of c.challengeName */}
-                                        🏆 {c.title} 
+                                        🏆 {c.title}
                                     </option>
                                 ))}
                             </select>
@@ -244,10 +245,10 @@ export function SharePopup({ trigger, setTrigger }) {
                         {uploadProgress && <div className="upload-progress-message">{uploadProgress}</div>}
 
                         <div className="popup-actions">
-                            <BorderedButton 
-                                message={isUploading ? 'Uploading...' : 'Post Artwork'} 
-                                size='pink' 
-                                type="submit" 
+                            <BorderedButton
+                                message={isUploading ? 'Uploading...' : 'Post Artwork'}
+                                size='pink'
+                                type="submit"
                             />
                             <BorderedButton message='Cancel' size='purple' onClick={handleClose} />
                         </div>

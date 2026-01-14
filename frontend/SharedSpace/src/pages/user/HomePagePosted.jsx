@@ -21,6 +21,7 @@ import Sakura from '../../assets/arts/sakura.jpg';
 import Ukiyo from '../../assets/arts/ukiyo.jpg';
 import { StreakBadge } from '../../components/StreakBadge';
 import { SharePopup } from '../../components/SharePopup';
+import API_BASE_URL from '../../apiConfig';
 
 export function HomePagePosted() {
     const [artWorks, setArtWorks] = useState([]);
@@ -61,7 +62,7 @@ export function HomePagePosted() {
     useEffect(() => {
         const token = localStorage.getItem('token');
 
-        fetch('http://localhost:3000/api/users/get-streak', {
+        fetch(`${API_BASE_URL}/api/users/get-streak`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -94,7 +95,7 @@ export function HomePagePosted() {
             console.log('HomePagePosted: Fetching user artworks...');
             console.log('HomePagePosted: Token:', token ? 'Present' : 'Missing');
 
-            const response = await fetch('http://localhost:3000/api/artworks/my', {
+            const response = await fetch(`${API_BASE_URL}/api/artworks/my`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
@@ -153,7 +154,7 @@ export function HomePagePosted() {
             const token = localStorage.getItem('token');
 
             console.log('HomePagePosted: Fetching friends artworks...');
-            const response = await fetch('http://localhost:3000/api/artworks/friends', {
+            const response = await fetch(`${API_BASE_URL}/api/artworks/friends`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },
@@ -184,7 +185,7 @@ export function HomePagePosted() {
             const token = localStorage.getItem('token');
 
             console.log('HomePagePosted: Fetching challenges...');
-            const response = await fetch('http://localhost:3000/api/challenges/all', {
+            const response = await fetch(`${API_BASE_URL}/api/challenges/all`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },

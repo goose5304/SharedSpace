@@ -13,6 +13,7 @@ import Sakura from '../../assets/arts/sakura.jpg';
 import Sunday from '../../assets/arts/ukiyo.jpg';
 import WaterLily from '../../assets/arts/waterlilies.jpg'
 import { BorderlessButton } from '../../components/BorderlessButton.jsx';
+import API_BASE_URL from '../../apiConfig';
 
 export function FriendsSpacePage() {
     /**
@@ -33,7 +34,7 @@ export function FriendsSpacePage() {
             const token = localStorage.getItem('token');
 
             console.log('HomePage: Fetching friends artworks...');
-            const response = await fetch('http://localhost:3000/api/artworks/friends', {
+            const response = await fetch(`${API_BASE_URL}/api/artworks/friends`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },

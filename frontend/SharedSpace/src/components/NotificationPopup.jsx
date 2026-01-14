@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './NotificationPopup.css' // Import CSS.
+import API_BASE_URL from '../apiConfig';
 
 // ____________________________________________________________________________________________________
 
@@ -15,7 +16,7 @@ export function NotificationPopup({ onClose }) {
         const fetchNotifications = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:3000/api/notifications', {
+                const response = await fetch(`${API_BASE_URL}/api/notifications`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -44,7 +45,7 @@ export function NotificationPopup({ onClose }) {
         const fetchNotifications = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch('http://localhost:3000/api/notifications', {
+                const response = await fetch(`${API_BASE_URL}/api/notifications`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -71,15 +72,15 @@ export function NotificationPopup({ onClose }) {
         if (!notif.isRead) {
             try {
                 const token = localStorage.getItem('token');
-                await fetch(`http://localhost:3000/api/notifications/${notif._id}/read`, {
+                await fetch(`${API_BASE_URL}/api/notifications/${notif._id}/read`, {
                     method: 'PATCH',
-                    headers: { 
+                    headers: {
                         'Authorization': `Bearer ${token}`,
                         'Content-Type': 'application/json'
                     }
                 });
-                
-                setNotifications(prev => 
+
+                setNotifications(prev =>
                     prev.map(n => n._id === notif._id ? { ...n, isRead: true } : n)
                 );
             } catch (err) {

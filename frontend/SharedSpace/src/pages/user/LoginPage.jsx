@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { BorderedButton } from '../../components/BorderedButton'
 import SharedSpaceLogo from '../../assets/SharedSpaceLogo.svg'
+import API_BASE_URL from '../../apiConfig'
 
 // ____________________________________________________________________________________________________
 
@@ -18,7 +19,7 @@ export function LoginPage() {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:3000/api/users/login', {
+      const response = await fetch(`${API_BASE_URL}/api/users/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ export function LoginPage() {
 
   const checkIfPostedToday = async (token) => {
     try {
-      const response = await fetch('http://localhost:3000/api/artworks/my', {
+      const response = await fetch(`${API_BASE_URL}/api/artworks/my`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
