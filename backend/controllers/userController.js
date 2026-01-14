@@ -1,6 +1,10 @@
 import bcrypt from "bcrypt";
 import mongoose from 'mongoose';
 import User from '../models/userModel.js';
+import Artwork from '../models/artworkModel.js';
+import Vote from '../models/voteModel.js';
+import Report from '../models/reportModel.js';
+import Notification from '../models/notificationModel.js';
 import { sendNotification } from "../utils/notificationHelper.js";
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -511,9 +515,69 @@ const getUserAchievements = async (req, res) => {
     }
 };
 
+const deleteCurrentUserAccount = async (req, res, next) => {
+    try {
+        const userId = req.user.userId;
+
+        // 1. Get all artworks by this user to clean up related data
+        const userArtworks = await Artwork.find({ ownerID: userId }).select('_id');
+        const artworkIds = userArtworks.map(art => art._id);
+
+        // 2. Delete all artworks by this user
+        await Artwork.deleteMany({ ownerID: userId });
+
+        // 3. Delete all votes made by this user or ON this user's artworks
+        await Vote.deleteMany({
+            $or: [
+                { voterID: userId },
+                { artworkID: { $in: artworkIds } }
+            ]
+        });
+
+        // 4. Delete all reports made by this user or ON this user's artworks
+        await Report.deleteMany({
+            $or: [
+                { reporterID: userId },
+                { artworkID: { $in: artworkIds } }
+            ]
+        });
+
+        // 5. Delete all notifications for this user or related to this user
+        await Notification.deleteMany({
+            $or: [
+                { recipient: userId },
+                { relatedId: userId }
+            ]
+        });
+
+        // 6. Remove user from all other users' friends and friendRequests lists
+        await User.updateMany(
+            {},
+            {
+                $pull: {
+                    friends: userId,
+                    friendRequests: userId
+                }
+            }
+        );
+
+        // 7. Finally, delete the user
+        const deletedUser = await User.findByIdAndDelete(userId);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'Account and all associated data deleted successfully' });
+    } catch (err) {
+        console.error('Error deleting account:', err);
+        res.status(500).json({ message: 'Unable to delete account', error: err.message });
+    }
+};
+
 export {
     findByUserEmail, deleteUser, updateUser, findByUsername, findCurrentUser, registerUser,
     loginUser, getRegisteredUsers, getUserById, sendFriendRequest, acceptFriendRequest, declineFriendRequest,
     removeFriend, getFriendsList, getPendingRequests, getOutgoingRequests, cancelOutgoingRequest,
-    updateStreak, streakCheckIn, getUserAchievements, getStreak,
+    updateStreak, streakCheckIn, getUserAchievements, getStreak, deleteCurrentUserAccount
 };

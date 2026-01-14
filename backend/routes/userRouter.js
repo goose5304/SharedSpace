@@ -5,6 +5,7 @@ import {
     getFriendsList, getPendingRequests, findByUserEmail, findByUsername,
     deleteUser, updateUser, findCurrentUser, getOutgoingRequests,
     cancelOutgoingRequest, streakCheckIn, getUserAchievements, getStreak,
+    deleteCurrentUserAccount
 } from '../controllers/userController.js';
 import { isAdmin, verifyToken } from '../middleware/auth.js';
 
@@ -22,6 +23,7 @@ router.put('/streak', verifyToken, streakCheckIn);
 router.get('/get-streak', verifyToken, getStreak);
 router.post('/findByUsername', verifyToken, findByUsername);
 router.delete('/delete', verifyToken, isAdmin, deleteUser);
+router.delete('/delete-me', verifyToken, deleteCurrentUserAccount);
 
 router.post('/friends/request', verifyToken, sendFriendRequest);
 router.post('/friends/accept', verifyToken, acceptFriendRequest);

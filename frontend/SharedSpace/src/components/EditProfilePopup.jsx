@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BorderedButton } from './BorderedButton';
 import toast from 'react-hot-toast';
 import './EditProfilePopup.css';
@@ -14,6 +15,7 @@ import './EditProfilePopup.css';
 * onSave - Callback function to save updated profile data
 */
 export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '',
         bio: '',
@@ -22,6 +24,7 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
         profilePicture: null
     });
     const [previewURL, setPreviewURL] = useState(null);
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
     // Update form data when the user prop changes or popup opens
     useEffect(() => {
@@ -186,6 +189,67 @@ export function EditProfilePopup({ isOpen, onClose, user, onSave }) {
                                 />
                             </div>
                         </div>
+
+                        <div className="form-divider danger">
+                            <span>Danger Zone</span>
+                        </div>
+                        <div className="danger-section">
+                            <p className="danger-text">Once you delete your account, there is no going back. All your artwork and connections will be permanently removed.</p>
+                            {!showDeleteConfirm ? (
+                                <button
+                                    type="button"
+                                    className="delete-account-btn"
+                                    onClick={() => setShowDeleteConfirm(true)}
+                                >
+                                    Delete this account
+                                </button>
+                            ) : (
+                                <div className="delete-confirm-actions">
+                                    <span className="confirm-text">Are you absolutely sure?</span>
+                                    <div className="confirm-btns">
+                                        <button
+                                            type="button"
+                                            className="confirm-delete-btn"
+                                            onClick={async () => {
+                                                const token = localStorage.getItem('token');
+                                                try {
+                                                    const response = await fetch('http://localhost:3000/api/users/delete-me', {
+                                                        method: 'DELETE',
+                                                        headers: {
+                                                            'Authorization': `Bearer ${token}`,
+                                                        },
+                                                    });
+
+                                                    if (response.ok) {
+                                                        localStorage.removeItem('token');
+                                                        localStorage.removeItem('email');
+                                                        localStorage.removeItem('username');
+                                                        localStorage.removeItem('userType');
+                                                        toast.success("Account deleted successfully");
+                                                        navigate('/login');
+                                                    } else {
+                                                        toast.error("Failed to delete account");
+                                                    }
+                                                } catch (error) {
+                                                    console.error("Delete error:", error);
+                                                    toast.error("Error deleting account");
+                                                }
+                                            }}
+                                        >
+                                            Yes, Delete
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="cancel-delete-btn"
+                                            onClick={() => setShowDeleteConfirm(false)}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+
                         <div className="edit-popup-buttons">
                             <BorderedButton message="Save Changes" size="pink" type="submit" onClick={() => { }} />
                             <BorderedButton message="Cancel" size="pink" onClick={onClose} />
