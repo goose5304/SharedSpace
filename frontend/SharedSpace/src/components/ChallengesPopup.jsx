@@ -20,7 +20,7 @@ export function ChallengesPopup({ trigger, setTrigger, onSelectChallenge }) {
             const token = localStorage.getItem('token');
 
             console.log('Fetching challenges from API...');
-            const response = await fetch(`${API_BASE_URL}/api/challenges/all`, {
+            const response = await fetch(`${API_BASE_URL}/api/challenges/active`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                 },

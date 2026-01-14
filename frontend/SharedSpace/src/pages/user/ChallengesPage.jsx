@@ -31,12 +31,14 @@ export function ChallengesPage() {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (response.ok) {
-                    const data = await response.json();
-                    const now = new Date();
+                    const rawData = await response.json();
+                    const data = Array.isArray(rawData) ? rawData : [rawData];
                     setChallenges(data);
 
-                    // Find active challenges for default selection
+                    const now = new Date();
+                    // find active challenges for default selection
                     const active = data.filter(c => new Date(c.startDate) <= now && new Date(c.endDate) >= now);
+                    
                     if (active.length > 0) {
                         setSelectedChallengeId(active[0]._id);
                     } else if (data.length > 0) {
@@ -45,6 +47,7 @@ export function ChallengesPage() {
                 }
             } catch (error) {
                 console.error("Error fetching challenges:", error);
+                setChallenges([]);
             }
         };
         fetchChallenges();
@@ -314,7 +317,10 @@ export function ChallengesPage() {
             <ChallengesPopup
                 trigger={showChallengesPopup}
                 setTrigger={setShowChallengesPopup}
-                onSelectChallenge={setSelectedChallengeId}
+                onSelectChallenge={(id) => {
+                    setSelectedChallengeId(id);
+                    setErrorMessage(""); // Clear old errors when switching
+                }}
             />
         </div>
     );
