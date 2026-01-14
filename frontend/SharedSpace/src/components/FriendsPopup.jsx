@@ -291,15 +291,19 @@ export function FriendsPopup({ isOpen, onClose }) {
 
             return (
                 <div className="friends-content-list">
-                    {filteredFriends.map((friend, index) => (
-                        <div key={friend._id} className={`friend-row ${index % 2 === 0 ? 'even' : 'odd'}`}>                       {/* Class name for styling. */}
+                    {filteredFriends.length > 0 ? (
+                        filteredFriends.map((friend, index) => (
+                        <div key={friend._id} className={`friend-row ${index % 2 === 0 ? 'even' : 'odd'}`}>
                             <div className="friend-info">
-                                <img src={friend.profilePicture || "/defaultAvatar.png"} alt={friend.username} className="row-avatar" />
+                                <img src={friend.profilePicture || "/defaultAvatar.png"} alt={friend.username} className="row-avatar" />  {/* Class name for styling. */}
                                 <span className="row-username">{friend.username}</span>
                             </div>
-                            <button className="action-btn remove-btn" onClick={() => handleRemoveFriend(friend._id)}>✖</button>  {/* Button to remove friend. */}
+                            <button className="action-btn remove-btn" onClick={() => handleRemoveFriend(friend._id)}>✖</button>           {/* Button to remove friend. */}
                         </div>
-                    ))}
+                        ))
+                    ) : (
+                        <p className="status-message">No friends yet.</p>
+                    )}
                 </div>
             );
         } else if (activeTab === 'Friend Requests') {
@@ -311,8 +315,9 @@ export function FriendsPopup({ isOpen, onClose }) {
 
             return (
                 <div className="friends-content-list">
-                    {filteredRequests.map((req, index) => (
-                        <div key={req._id} className={`request-row ${index % 2 === 0 ? 'even' : 'odd'}`}>                             {/* Class name for styling. */}
+                    {filteredRequests.length > 0 ? (
+                        filteredRequests.map((req, index) => (
+                        <div key={req._id} className={`request-row ${index % 2 === 0 ? 'even' : 'odd'}`}>                            {/* Class name for styling. */}
                             <div className="friend-info">
                                 <img src={req.profilePicture || "/defaultAvatar.png"} alt={req.username} className="row-avatar" />
                                 <span className="row-username">{req.username}</span>
@@ -322,12 +327,15 @@ export function FriendsPopup({ isOpen, onClose }) {
                                 <button className="action-btn decline-btn" onClick={() => handleDeclineRequest(req._id)}>✖</button>  {/* Button to decline request. */}
                             </div>
                         </div>
-                    ))}
+                        ))
+                    ) : (
+                        <p className="status-message">No new requests.</p>
+                    )}
                 </div>
             );
         } else if (activeTab === 'Add Friend') {
 
-            // Show outgoing friend requests' usernames containing search query.
+            // Show usernames containing search query.
             return (
                 <div className="add-friend-container">
                     <div className="add-friend-top">
@@ -348,18 +356,16 @@ export function FriendsPopup({ isOpen, onClose }) {
                     <div className="friends-content-list">
                         {Array.isArray(searchResults) && searchResults.length > 0 ? (
                             searchResults.map((user, index) => (
-                            <div key={`${user._id || index}`} className={`friend-row ${index % 2 === 0 ? 'even' : 'odd'}`}>
+                            <div key={`${user._id || index}`} className={`friend-row ${index % 2 === 0 ? 'even' : 'odd'}`}>               {/* Class name for styling. */}
                                 <div className="friend-info">
-                                <img src={user.profilePicture || "/defaultAvatar.png"} alt={user.username} className="row-avatar" />
-                                <span className="row-username">{user.username}</span>
+                                    <img src={user.profilePicture || "/defaultAvatar.png"} alt={user.username} className="row-avatar" />
+                                    <span className="row-username">{user.username}</span>
                                 </div>
-                                <button className="action-btn add-btn" onClick={() => handleAddFriend(user._id)}>
-                                ✚
-                                </button>
+                                <button className="action-btn add-btn" onClick={() => handleAddFriend(user._id)}>✚</button>               {/* Button to send friend request. */}
                             </div>
                             ))
                         ) : (
-                            <p className = "status-message" p>No users found.</p>
+                            <p className = "status-message">No users found.</p>
                         )}
                     </div>
                 </div>
