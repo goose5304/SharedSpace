@@ -75,7 +75,7 @@ export function ArtWallPage() {
         return () => {
             window.removeEventListener('resize', resizeAllGridItems);
         };
-    }, []);
+    }, [artWorks, activeArt]);
 
     return (
         <div className="artWallContainer">

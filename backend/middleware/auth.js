@@ -15,7 +15,6 @@ const verifyToken = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, SECRET_KEY);
         req.user = decoded;
-        console.log(req.user.isBanned);
         if(req.user.isBanned) { 
           return res.status(401).json({ message: "You have been banned."}); 
          }  
