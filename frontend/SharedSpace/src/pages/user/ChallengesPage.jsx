@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BorderedButton } from '../../components/BorderedButton';
 import { BorderlessButton } from '../../components/BorderlessButton';
 import { ConfirmVotePopup } from '../../components/ConfirmVotePopup';
+import { ChallengesPopup } from '../../components/ChallengesPopup';
 import './ChallengesPage.css';
 import Almond from '../../assets/arts/almondtree.jpg';
 import August from '../../assets/arts/augustrenoire.jpg';
@@ -25,13 +26,14 @@ export function ChallengesPage() {
         criteriaTags: [
             { name: "Originality" },
             { name: "Impact" },
-            { name: "Relevance"  }
+            { name: "Relevance" }
         ]
     };
 
     const [currentVoteIndex, setCurrentVoteIndex] = useState(0);
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [showConfirmPopup, setShowConfirmPopup] = useState(false);
+    const [showChallengesPopup, setShowChallengesPopup] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
 
     const [votingArtworks, setVotingArtworks] = useState([
@@ -110,7 +112,7 @@ export function ChallengesPage() {
             {/* Challenge Area */}
             <div className="challenge-main">
                 <h1 className="main-title">This Week's Challenge</h1>
-                
+
                 <div className="challenge-tag-container">
                     <div className="challenge-tag"># {challenge.title}</div>
                 </div>
@@ -121,7 +123,7 @@ export function ChallengesPage() {
                             {challenge.description}
                         </p>
                     </div>
-                    
+
                     <div className="circles-container">
                         {challenge.criteriaTags.map((tag, index) => (
                             <div key={index} className="info-circle">
@@ -130,15 +132,23 @@ export function ChallengesPage() {
                         ))}
                     </div>
                 </div>
+
+                <div className="view-all-challenges-button">
+                    <BorderlessButton
+                        onClick={() => setShowChallengesPopup(true)}
+                        message="View All Challenges"
+                        type="darkbody"
+                    />
+                </div>
             </div>
 
             {/* Friends Challenge Area */}
             <div className="friends-challenge-area">
                 <h2 className="friends-challenge-text">Your friends have joined the challenge!</h2>
-                <BorderlessButton 
-                    to="/friends-space" 
-                    message="Go to Friends Space" 
-                    type="lightbody" 
+                <BorderlessButton
+                    to="/friends-space"
+                    message="Go to Friends Space"
+                    type="lightbody"
                 />
             </div>
 
@@ -154,23 +164,23 @@ export function ChallengesPage() {
                             // Calculate the relative position ('diff') of each artwork to the 'currentVoteIndex'.
                             // This creates a circular list effect.
                             const len = votingArtworks.length;
-                            
+
                             // Ensures the result is positive [0, len-1].
                             let diff = (index - currentVoteIndex + len) % len;
-                            
+
                             // Adjust diff to be centered around 0. 
                             // If diff > len / 2, it means the item is "behind" the current item in the circle.
                             // e.g., len=6, current=0, index=5 -> diff=5. 5 > 3 -> diff becomes -1 (previous item).
                             if (diff > len / 2) diff -= len;
-                            
+
                             const isCurrent = diff === 0;
                             const isNext = diff === 1;
                             const isPrev = diff === -1;
-                            
+
                             let transform = 'translateX(0) scale(0.5)';
                             let zIndex = 0;
                             let opacity = 0;
-                            
+
                             // Apply styles based on relative position
                             if (isCurrent) {
                                 transform = 'translateX(0) scale(1)';
@@ -185,16 +195,16 @@ export function ChallengesPage() {
                                 zIndex = 5;
                                 opacity = 0.6;
                             }
-                            
+
                             return (
-                                <div 
-                                    key={artwork.id} 
-                                    className="artwork-card" 
+                                <div
+                                    key={artwork.id}
+                                    className="artwork-card"
                                     onClick={() => {
                                         if (isNext) handleNext();
                                         if (isPrev) handlePrev();
                                     }}
-                                    style={{ 
+                                    style={{
                                         transform,
                                         zIndex,
                                         opacity,
@@ -234,11 +244,17 @@ export function ChallengesPage() {
 
             {/* Confirm Vote Popup */}
             {showConfirmPopup && (
-                <ConfirmVotePopup 
-                    onClose={() => setShowConfirmPopup(false)} 
-                    onConfirm={confirmVote} 
+                <ConfirmVotePopup
+                    onClose={() => setShowConfirmPopup(false)}
+                    onConfirm={confirmVote}
                 />
             )}
+
+            {/* Challenges Popup */}
+            <ChallengesPopup
+                trigger={showChallengesPopup}
+                setTrigger={setShowChallengesPopup}
+            />
         </div>
     );
 }

@@ -63,7 +63,7 @@
 }
 
 .description-box {
-    background-color: rgba(94, 91, 124, 0.8); 
+    background-color: rgba(94, 91, 124, 0.8);
     color: white;
     padding: 2.5rem;
     border-radius: 20px;
@@ -108,6 +108,12 @@
 
 .info-circle:hover {
     transform: translateY(-5px);
+}
+
+.view-all-challenges-button {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: center;
 }
 
 /* Friend Challenge Area */
@@ -210,7 +216,7 @@
     background-color: #fff;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: all 0.5s ease-in-out;
 }
 
@@ -269,5 +275,5 @@
     font-weight: 600;
     text-align: center;
     border: 1px solid #EF9A9A;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

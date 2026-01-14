@@ -1,5 +1,5 @@
 import Challenge from '../models/challengeModel.js';
-import Artwork from '../models/artworkModel.js'; 
+import Artwork from '../models/artworkModel.js';
 import mongoose from 'mongoose';
 import { updateStreak } from './userController.js'
 import { broadcastNotification } from '../utils/notificationHelper.js';
@@ -20,12 +20,12 @@ const createChallenge = async (req, res) => {
     const createdChallenge = await challenge.save();
 
     await broadcastNotification(
-      'challenge_alert', 
-      'New Challenge Alert!', 
+      'challenge_alert',
+      'New Challenge Alert!',
       `A new challenge "${title}" has just started. Show us your best work!`,
       createdChallenge._id // The relatedId for deep-linking
     );
-    
+
     res.status(201).json(createdChallenge);
   } catch (error) {
     console.error('Error creating challenge:', error);
@@ -37,7 +37,7 @@ const createChallenge = async (req, res) => {
 const getActiveChallenge = async (req, res) => {
   try {
     const now = new Date();
-    
+
     // Find a challenge where today is between the start and end date
     const activeChallenge = await Challenge.findOne({
       startDate: { $lte: now },
@@ -71,21 +71,21 @@ const submitToChallenge = async (req, res) => {
     if (now < challenge.startDate || now > challenge.endDate) {
       return res.status(400).json({ message: 'This challenge is not active.' });
     }
-    
+
     // similar to createArtwork
     // but with the challengeId added
     const newArtwork = new Artwork({
-      artworkID: new mongoose.Types.ObjectId(), 
+      artworkID: new mongoose.Types.ObjectId(),
       ownerID: ownerID,
       title: title,
       description: description,
       imageURL: imageURL,
       privacy: 'public', // Challenge submissions must be public
-      challengeId: challengeId 
+      challengeId: challengeId
     });
 
     const savedArtwork = await newArtwork.save();
-    
+
     await updateStreak(ownerID); //trigger streak update
 
     res.status(201).json(savedArtwork);
@@ -95,6 +95,23 @@ const submitToChallenge = async (req, res) => {
   }
 };
 
+// get all challenges
+const getAllChallenges = async (req, res) => {
+  try {
+    console.log('getAllChallenges: Request received');
+    // Find all challenges and sort by start date (newest first)
+    const challenges = await Challenge.find().sort({ startDate: -1 });
+
+    console.log('getAllChallenges: Found', challenges.length, 'challenges');
+    console.log('getAllChallenges: Challenges:', JSON.stringify(challenges, null, 2));
+
+    res.status(200).json(challenges);
+  } catch (error) {
+    console.error('Error fetching all challenges:', error);
+    res.status(500).json({ message: 'Server error fetching challenges' });
+  }
+};
+
 export {
-    createChallenge, getActiveChallenge, submitToChallenge
+  createChallenge, getActiveChallenge, submitToChallenge, getAllChallenges
 }

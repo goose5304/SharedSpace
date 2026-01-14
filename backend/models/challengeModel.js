@@ -7,20 +7,20 @@ const challengeSchema = new mongoose.Schema({
   //   required: true, 
   //   unique: true 
   // },
-  title: { 
-    type: String, 
-    required: true 
+  title: {
+    type: String,
+    required: true
   },
-  description: { 
-    type: String 
+  description: {
+    type: String
   },
-  startDate: { 
-    type: Date, 
-    required: true 
+  startDate: {
+    type: Date,
+    required: true
   },
-  endDate: { 
-    type: Date, 
-    required: true 
+  endDate: {
+    type: Date,
+    required: true
   },
   criteriaTags: [{
     name: { type: String, required: true },

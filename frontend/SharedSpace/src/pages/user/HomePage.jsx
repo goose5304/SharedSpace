@@ -1,12 +1,14 @@
 import './HomePage.css'
 import { BorderedButton } from '../../components/BorderedButton.jsx'
 import { BorderlessButton } from '../../components/BorderlessButton.jsx';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArtPopup } from '../../components/ArtPopup';
 import { SharePopup } from '../../components/SharePopup';
 import Share from '../../assets/ShareYourDay.svg'
 import SampleImg from '../../assets/SharedSpaceLogo.svg'
 import SampleImg2 from '../../assets/react.svg'
+import LeaderboardPerson2 from '../../assets/LeaderboardPerson2.svg'
+import LeaderboardPerson1 from '../../assets/Leaderboard_Person1.svg'
 import PlaceDuTertre from '../../assets/arts/placedutertre.jpg'
 import AugustRenoir from '../../assets/arts/augustrenoire.jpg'
 import CafeNight from '../../assets/arts/cafenight.jpg'
@@ -19,12 +21,8 @@ import Sakura from '../../assets/arts/sakura.jpg';
 import Ukiyo from '../../assets/arts/ukiyo.jpg';
 
 export function HomePage() {
-    const artWorks = [
-        { img: PlaceDuTertre, date: "1/1/2026", description: "Place du Tertre", author: "Nname" },
-        { img: AugustRenoir, date: "1/4/2026", description: "August Renoir", author: "Nname" },
-        { img: CafeNight, date: "1/6/2026", description: "Cafe Terrace at Night", author: "Cname" },
-        { img: WaterLilies, date: "1/4/2026", description: "Water Lilies", author: "Dname" },
-    ];
+    const [artWorks, setArtWorks] = useState([]);
+    const [loadingArtworks, setLoadingArtworks] = useState(true);
 
     const artWallWorks = [
         { img: Almond, date: "1/3/2026", description: "Almond Tree" },
@@ -52,17 +50,114 @@ export function HomePage() {
         { rank: 3, name: "User Three", points: 950, avatar: SampleImg },
     ];
 
-    const challenges = [
-        { id: 1, name: "# 10-MinuteSketch" },
-        { id: 2, name: "# NoErasing" },
-        { id: 3, name: "# PixelArt" },
-        { id: 4, name: "# OneColor" },
-    ];
+    const [challenges, setChallenges] = useState([]);
+    const [loadingChallenges, setLoadingChallenges] = useState(true);
 
     const friendArt = friends_artWorks[0] // Specifically set to Almond Tree
 
     const [activeArt, setActiveArt] = useState(null);
     const [showSharePopup, setShowSharePopup] = useState(false);
+
+    useEffect(() => {
+        fetchChallenges();
+        fetchUserArtworks();
+    }, []);
+
+    const fetchUserArtworks = async () => {
+        try {
+            const token = localStorage.getItem('token');
+
+            console.log('HomePage: Fetching user artworks...');
+            console.log('HomePage: Token:', token ? 'Present' : 'Missing');
+
+            const response = await fetch('http://localhost:3000/api/artworks/my', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            console.log('HomePage: Artworks response status:', response.status);
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('HomePage: User artworks data:', data);
+                console.log('HomePage: Number of artworks:', data.length);
+
+                // Sort by upload date (newest first) and take first 4
+                const sortedArtworks = data
+                    .sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate))
+                    .slice(0, 4)
+                    .map(artwork => ({
+                        img: artwork.imageURL,
+                        date: new Date(artwork.uploadDate).toLocaleDateString(),
+                        description: artwork.title,
+                        author: "You"
+                    }));
+
+                console.log('HomePage: Setting artworks to:', sortedArtworks);
+                setArtWorks(sortedArtworks);
+            } else {
+                const errorText = await response.text();
+                console.error('HomePage: Failed to fetch artworks. Status:', response.status);
+                console.error('HomePage: Error response:', errorText);
+                setArtWorks([]);
+            }
+        } catch (error) {
+            console.error('HomePage: Error fetching user artworks:', error);
+            console.error('HomePage: Error details:', error.message);
+            setArtWorks([]);
+        } finally {
+            console.log('HomePage: Setting loadingArtworks to false');
+            setLoadingArtworks(false);
+        }
+    };
+
+    const fetchChallenges = async () => {
+        try {
+            const token = localStorage.getItem('token');
+
+            console.log('HomePage: Fetching challenges...');
+            const response = await fetch('http://localhost:3000/api/challenges/all', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            console.log('HomePage: Response status:', response.status);
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('HomePage: Challenges data:', data);
+                // Get the first 4 challenges
+                setChallenges(data.slice(0, 4).map(challenge => ({
+                    id: challenge._id,
+                    name: `# ${challenge.title}`
+                })));
+            } else {
+                const errorText = await response.text();
+                console.error('HomePage: API Error:', errorText);
+                // Fallback to default challenges if fetch fails
+                setChallenges([
+                    { id: 1, name: "# 10-MinuteSketch" },
+                    { id: 2, name: "# NoErasing" },
+                    { id: 3, name: "# PixelArt" },
+                    { id: 4, name: "# OneColor" },
+                ]);
+            }
+        } catch (error) {
+            console.error('Error fetching challenges:', error);
+            // Fallback to default challenges
+            setChallenges([
+                { id: 1, name: "# 10-MinuteSketch" },
+                { id: 2, name: "# NoErasing" },
+                { id: 3, name: "# PixelArt" },
+                { id: 4, name: "# OneColor" },
+            ]);
+        } finally {
+            setLoadingChallenges(false);
+        }
+    };
+
 
 
     return (
@@ -85,13 +180,33 @@ export function HomePage() {
                 />
 
                 <h1 className='worksText'>Your Recent Works</h1>
-                <div className='art-grid'>
-                    {artWorks.map((art, index) => (
-                        <div key={index} className='art-card' onClick={() => setActiveArt(art)}>
-                            <img src={art.img} alt={art.description} className='art-image'></img>
-                        </div>
-                    ))}
-                </div>
+                {loadingArtworks ? (
+                    <div className='art-grid'>
+                        <p style={{ textAlign: 'center', color: '#5C5A7B', fontSize: '1.2rem', gridColumn: '1 / -1' }}>
+                            Loading your artworks...
+                        </p>
+                    </div>
+                ) : artWorks.length === 0 ? (
+                    <div className='no-artworks-container'>
+                        <h2 className='no-artworks-title'>Share Your Art with the World!</h2>
+                        <p className='no-artworks-message'>
+                            You haven't shared any artworks yet. Start your creative journey today and inspire others with your unique creations!
+                        </p>
+                        <BorderedButton
+                            message='Share Your First Artwork'
+                            size='pink'
+                            onClick={() => setShowSharePopup(true)}
+                        />
+                    </div>
+                ) : (
+                    <div className='art-grid'>
+                        {artWorks.map((art, index) => (
+                            <div key={index} className='art-card' onClick={() => setActiveArt(art)}>
+                                <img src={art.img} alt={art.description} className='art-image'></img>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
 
             <div className='friends'>
@@ -150,7 +265,7 @@ export function HomePage() {
                         />
                         <div className='podium-container'>
                             <div className='podium-item rank-2-position'>
-                                <img src={SampleImg} alt="2nd place" className='podium-avatar-top' />
+                                <img src={LeaderboardPerson2} alt="2nd place" className='podium-avatar-top' />
                                 <div className='podium-card rank-2'>
                                     <div className='podium-rank'>2</div>
                                 </div>
@@ -164,7 +279,7 @@ export function HomePage() {
                             </div>
 
                             <div className='podium-item rank-3-position'>
-                                <img src={SampleImg2} alt="3rd place" className='podium-avatar-top' />
+                                <img src={LeaderboardPerson1} alt="3rd place" className='podium-avatar-top' />
                                 <div className='podium-card rank-3'>
                                     <div className='podium-rank'>3</div>
                                 </div>
@@ -183,11 +298,17 @@ export function HomePage() {
                             className='challenge-button-link'
                         />
                         <div className='challenge-container'>
-                            {challenges.map((challenge) => (
-                                <button key={challenge.id} className='challenge-button'>
-                                    {challenge.name}
-                                </button>
-                            ))}
+                            {loadingChallenges ? (
+                                <p style={{ color: '#FAF3EB', fontSize: '1rem' }}>Loading challenges...</p>
+                            ) : challenges.length > 0 ? (
+                                challenges.map((challenge) => (
+                                    <button key={challenge.id} className='challenge-button'>
+                                        {challenge.name}
+                                    </button>
+                                ))
+                            ) : (
+                                <p style={{ color: '#FAF3EB', fontSize: '1rem' }}>No challenges available</p>
+                            )}
                         </div>
                     </div>
                 </div>
