@@ -63,9 +63,13 @@ export function ArtPopup({ trigger, setTrigger, img, date, desc, author, authorI
                         </svg>
                     </button>
                     <div className="info-content">
-                        {author && authorImg && (
+                        {author && (
                             <div className="author-section">
-                                <img src={authorImg} alt={author} className="author-img" />
+                                <img
+                                    src={authorImg || "/defaultAvatar.png"}
+                                    alt={author}
+                                    className="author-img"
+                                />
                                 <div className="author-info">
                                     <span className="author-label">Shared by</span>
                                     <span className="author-name">{author}</span>

@@ -1,7 +1,7 @@
 import SampleImg from '../../assets/SharedSpaceLogo.svg'
 import SampleImg2 from '../../assets/react.svg'
 import { ArtPopup } from '../../components/ArtPopup';
-import { useState , useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './FriendsSpacePage.css'
 import Almond from '../../assets/arts/almondtree.jpg';
 import August from '../../assets/arts/augustrenoire.jpg';
@@ -27,7 +27,7 @@ export function FriendsSpacePage() {
     useEffect(() => {
         fetchFriendsArtworks();
     }, []);
-    
+
     const fetchFriendsArtworks = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -58,7 +58,7 @@ export function FriendsSpacePage() {
             setLoadingFriendsArtworks(false);
         }
     };
-    
+
     /**
      * Current page index (0-based)
      * @type {number}
@@ -67,7 +67,7 @@ export function FriendsSpacePage() {
 
     /** Number of artworks to display per page */
     const itemsPerPage = 4;
-    
+
     /** Total number of pages based on artwork count */
     const totalPages = Math.ceil(friendsArtworks.length / itemsPerPage);
 
@@ -105,6 +105,8 @@ export function FriendsSpacePage() {
                 img={selectedArt?.imageURL}
                 date={selectedArt?.uploadDate}
                 desc={selectedArt?.description}
+                author={selectedArt?.ownerID?.username}
+                authorImg={selectedArt?.ownerID?.profilePicture}
             />
             {loadingFriendsArtworks ? (
                 <div className='fs-content-wrapper'>
@@ -114,24 +116,28 @@ export function FriendsSpacePage() {
                 <div className="fs-content-wrapper">
                     <h1 className="fs-title">Friends</h1>
                     <p className="fs-subtitle">See what your friends have been sharing lately</p>
-                
+
                     {/* Grid of current page artworks */}
                     <div className="fs-artworks-grid">
                         {getCurrentPageArtworks().map((art, index) => (
-                            <div 
-                                key={index} 
+                            <div
+                                key={index}
                                 className="fs-artwork-card"
                                 onClick={() => setSelectedArt(art)}
                             >
-                                <img 
-                                    src={art.imageURL} 
+                                <img
+                                    src={art.imageURL}
                                     alt={art.description}
                                     className="fs-artwork-image"
                                 />
                                 {/* Author profile picture overlay */}
-                                {/* <div className="fs-artwork-avatar">
-                                    <img src={art?.authorPic} className='fs-avatar-circle' alt={art.author}/>
-                                </div> */}
+                                <div className="fs-artwork-avatar">
+                                    <img
+                                        src={art.ownerID?.profilePicture || "/defaultAvatar.png"}
+                                        className='fs-avatar-circle'
+                                        alt={art.ownerID?.username}
+                                    />
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -139,20 +145,20 @@ export function FriendsSpacePage() {
                     {/* Pagination controls */}
                     <div className="fs-navigation">
                         {/* Previous button */}
-                        <button 
+                        <button
                             className="fs-nav-button"
                             onClick={handlePrevious}
                             disabled={currentPage === 0}
                         >
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </button>
 
                         {/* Page indicator dots */}
                         <div className="fs-page-indicators">
                             {Array.from({ length: totalPages }).map((_, index) => (
-                                <div 
+                                <div
                                     key={index}
                                     className={`fs-page-dot ${index === currentPage ? 'fs-active' : ''}`}
                                     onClick={() => setCurrentPage(index)}
@@ -161,13 +167,13 @@ export function FriendsSpacePage() {
                         </div>
 
                         {/* Next button */}
-                        <button 
+                        <button
                             className="fs-nav-button"
                             onClick={handleNext}
                             disabled={currentPage === totalPages - 1}
                         >
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M9 18L15 12L9 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </button>
                     </div>

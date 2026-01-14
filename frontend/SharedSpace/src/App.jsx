@@ -15,6 +15,7 @@ import { HomePagePosted } from './pages/user/HomePagePosted.jsx'
 import { ProfilePage } from './pages/user/ProfilePage.jsx'
 import { ModDashboardPage } from './pages/user/ModDashboardPage.jsx'
 import { ChallengesPage } from './pages/user/ChallengesPage.jsx'
+import { IntroPage } from './pages/user/IntroPage.jsx'
 import { NotificationPopup } from './components/NotificationPopup'
 import { SignOutPopup } from './components/SignOutPopup'
 
@@ -85,7 +86,7 @@ function App() {
           </div>
         } /> */}
 
-        <Route index element={<LoginPage />} />
+        <Route index element={<IntroPage />} />
         <Route path="home" element={<HomePage />} />
         <Route path="home-posted" element={<HomePagePosted />} />
         <Route path="art-wall" element={<ArtWallPage />} />
