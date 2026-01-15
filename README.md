@@ -1,8 +1,8 @@
-# 🎨 Shared Space
+#  Shared Space
 
 A vibrant social platform for artists to share their daily creations, connect with friends, and participate in creative challenges. Build your streak, climb the leaderboard, and explore a community of digital art.
 
-## 📋 Table of Contents
+##  Table of Contents
 
 - [Features](#features)
 - [Tech Stack](#tech-stack)
@@ -10,24 +10,24 @@ A vibrant social platform for artists to share their daily creations, connect wi
 - [API Documentation](#api-documentation)
 - [Project Structure](#project-structure)
 
-## ✨ Features
+##  Features
 
 ### User Features
 
-- 🖼️ **Art Wall**: Explore a dynamic gallery of artworks shared by the community.
-- 📤 **Share Creativity**: Upload your daily artwork with titles and descriptions.
-- 🤝 **Friends System**: Send friend requests, accept/decline invites, and view a personalized feed of your friends' art.
-- 🏆 **Leaderboard & Gamification**: Earn points, maintain daily streaks, and compete for top spots on the leaderboard.
-- 🎯 **Daily Challenges**: Participate in active drawing challenges to spark inspiration.
-- 👤 **Profile Management**: Manage your portfolio, track achievements, and update your profile details.
-- 🔐 **Secure Authentication**: Safe and secure login/signup process using JWT.
+-  **Art Wall**: Explore a dynamic gallery of artworks shared by the community.
+-  **Share Creativity**: Upload your daily artwork with titles and descriptions.
+-  **Friends System**: Send friend requests, accept/decline invites, and view a personalized feed of your friends' art.
+-  **Leaderboard & Gamification**: Earn points, maintain daily streaks, and compete for top spots on the leaderboard.
+-  **Challenges**: Participate in active drawing challenges to spark inspiration.
+-  **Profile Management**: Manage your portfolio, track achievements, and update your profile details.
+-  **Secure Authentication**: Safe and secure login/signup process using JWT.
 
 ### Admin Features
 
-- 👥 **User Management**: Oversee registered users and manage community access.
-- 🛡️ **Content Moderation**: Tools to ensure the community remains safe and strictly for art.
+-  **User Management**: Oversee registered users and manage community access.
+-  **Content Moderation**: Tools to ensure the community remains safe and strictly for art.
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 ### Frontend
 
@@ -47,7 +47,7 @@ A vibrant social platform for artists to share their daily creations, connect wi
 - **Image Hosting:** Cloudinary
 - **File Upload:** Multer
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -110,7 +110,7 @@ npm run dev
 
 The frontend will be available at `http://localhost:5173` and the backend at `http://localhost:3000`.
 
-## 📚 API Documentation
+##  API Documentation
 
 ### Authentication Endpoints
 
@@ -149,7 +149,7 @@ The frontend will be available at `http://localhost:5173` and the backend at `ht
 | GET    | `/api/challenges/all`    | Get all challenges      | Yes           |
 | POST   | `/api/challenges/submit` | Submit entry to challenge| Yes          |
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 SharedSpace/
@@ -173,7 +173,7 @@ SharedSpace/
         └── package.json
 ```
 
-## 📝 License
+## License
 
 This project is a creative sharing platform built for community engagement accomplished for JPAD.
 

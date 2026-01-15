@@ -326,7 +326,7 @@ export function HomePage() {
                     ) : (
                         artWallPreviewWorks.map((art, index) => (
                             <div key={index} className='artWallCard' onClick={() => navigate('/art-wall')}>
-                                <img src={art.img} alt={art.description} className='artWallImage'></img>
+                                <img src={art.imageURL} alt={art.description} className='artWallImage'></img>
                             </div>
                         )))}
                 </div>
