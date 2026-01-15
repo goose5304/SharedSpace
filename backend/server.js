@@ -36,6 +36,8 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.options('*', cors(corsOptions));
+
 //connect mongodb
 // This ensures it works whether you use MONGO_URI (code) or MONGODB_URI (README)
 const mongoURI = process.env.MONGO_URI || process.env.MONGODB_URI;
