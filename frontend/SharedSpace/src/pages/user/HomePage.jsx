@@ -11,32 +11,14 @@ import SampleImg from '../../assets/SharedSpaceLogo.svg'
 import SampleImg2 from '../../assets/react.svg'
 import LeaderboardPerson2 from '../../assets/LeaderboardPerson2.svg'
 import LeaderboardPerson1 from '../../assets/Leaderboard_Person1.svg'
-import PlaceDuTertre from '../../assets/arts/placedutertre.jpg'
-import AugustRenoir from '../../assets/arts/augustrenoire.jpg'
-import CafeNight from '../../assets/arts/cafenight.jpg'
-import WaterLilies from '../../assets/arts/waterlilies.jpg'
-import Almond from '../../assets/arts/almondtree.jpg';
-import Girl from '../../assets/arts/girlwithpearlearrings.jpg';
-import Lemo from '../../assets/arts/lemoulin.jpg';
-import Nippon from '../../assets/arts/nippon.jpg';
-import Sakura from '../../assets/arts/sakura.jpg';
-import Ukiyo from '../../assets/arts/ukiyo.jpg';
 
 export function HomePage() {
     const [artWorks, setArtWorks] = useState([]);
     const [loadingArtworks, setLoadingArtworks] = useState(true);
 
-    const artWallWorks = [
-        { img: Almond, date: "1/3/2026", description: "Almond Tree" },
-        { img: AugustRenoir, date: "1/4/2026", description: "August Renoir" },
-        { img: CafeNight, date: "1/5/2026", description: "Cafe Night" },
-        { img: Girl, date: "1/4/2026", description: "Girl with a Pearl Earring" },
-        { img: Lemo, date: "1/5/2026", description: "Le Moulin de la Galette" },
-        { img: Nippon, date: "1/4/2026", description: "Nippon" },
-        { img: Sakura, date: "1/5/2026", description: "Sakura" },
-        { img: Ukiyo, date: "1/4/2026", description: "Sunday Afternoon / Ukiyo" },
-        { img: WaterLilies, date: "1/5/2026", description: "Water Lilies" }
-    ];
+    const [artWallPreviewWorks, setArtWallPreviewWorks] = useState([]);
+    const [loadingArtWall, setLoadingArtWall] = useState(true);
+
     const [friendsArtworks, setFriendsArtworks] = useState([]);
     const [loadingFriendsArtworks, setLoadingFriendsArtworks] = useState(true);
 
@@ -57,7 +39,33 @@ export function HomePage() {
         fetchChallenges();
         fetchUserArtworks();
         fetchFriendsArtworks();
+        fetchArtWallWorks();
     }, []);
+
+    const fetchArtWallWorks = async () => {
+        try {
+            console.log('HomePage: Fetching art wall preview...');
+            const response = await fetch(`${API_BASE_URL}/api/artworks/all`, {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('HomePage: Art wall data:', data);
+                const sortedArtworks = data
+                    .sort((a, b) => new Date(b.uploadDate) - new Date(a.uploadDate))
+                    .slice(0, 8);
+                setArtWallPreviewWorks(sortedArtworks);
+            } else {
+                console.error('HomePage: Failed to fetch art wall works');
+            }
+        } catch (error) {
+            console.error('HomePage: Error fetching art wall works:', error);
+        } finally {
+            setLoadingArtWall(false);
+        }
+    };
 
     const fetchUserArtworks = async () => {
         try {
@@ -311,11 +319,17 @@ export function HomePage() {
                     />
                 </div>
                 <div className='artWallGrid'>
-                    {artWallWorks.slice(0, 8).map((art, index) => (
-                        <div key={index} className='artWallCard' onClick={() => navigate('/art-wall')}>
-                            <img src={art.img} alt={art.description} className='artWallImage'></img>
-                        </div>
-                    ))}
+                    {loadingArtWall ? (
+                        <p style={{ textAlign: 'center', color: '#5C5A7B', fontSize: '1.2rem', gridColumn: '1 / -1' }}>
+                            Loading art wall...
+                        </p>
+                    ) : (
+                        artWallPreviewWorks.map((art, index) => (
+                            <div key={index} className='artWallCard' onClick={() => navigate('/art-wall')}>
+                                <img src={art.imageURL} alt={art.title} className='artWallImage'></img>
+                            </div>
+                        ))
+                    )}
                 </div>
             </div>
 
